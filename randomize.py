@@ -42,4 +42,4 @@ def randomizeRooms():
     for i in range(len(roomGrid)):
         finalList += roomGrid[i]
 
-    return finalList, roomGrid
+    return finalList, roomGrid #test
