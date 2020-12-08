@@ -26,20 +26,24 @@ def display(text):
     print("\n> {}\n".format(text))
 
 def move(dir):
-    global roomList, currentRoom, currentRoomID
+    global roomList, currentRoom, currentRoomID, movedThisTurn
     if(currentRoom.destinations[dir] is not None):
         currentRoomID = currentRoom.destinations[dir]
         currentRoom = roomList[currentRoomID]
         display("You went " + str(dir) + ". ")
+        movedThisTurn = True
     else:
         display("You went " + str(dir) + ". " + settings.errorMsg + currentRoom.msgOnStay)
+        movedThisTurn = False
 
+movedThisTurn = True
 crashed = False
 while not crashed:
     currentRoom = roomList[currentRoomID]
     # showDestinations(currentRoom)
     showRooms()
-    newDir = input("> {}\n".format(currentRoom.msgOnEnter))
+    newDir = input("> {}\n".format(currentRoom.msgOnEnter)) if movedThisTurn else input("> ")
+    movedThisTurn = False
     try:
         move(newDir.replace("\n", ""))
     except KeyError:
