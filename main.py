@@ -15,7 +15,7 @@ def showRooms():
     for row in range(len(roomGrid)):
         for col in range(len(roomGrid[row])):
             room = roomGrid[row][col]
-            s += "{} ({}) ".format(room.name, room.ID)
+            s += "{}".format(room)
         s += "\n"
     print(s)
 
@@ -30,9 +30,9 @@ def move(dir):
     if(currentRoom.destinations[dir] is not None):
         currentRoomID = currentRoom.destinations[dir]
         currentRoom = roomList[currentRoomID]
-        display("you went " + str(dir) + ". ")
+        display("You went " + str(dir) + ". ")
     else:
-        display("you went " + str(dir) + ". " + settings.errorMsg + currentRoom.msgOnStay)
+        display("You went " + str(dir) + ". " + settings.errorMsg + currentRoom.msgOnStay)
 
 crashed = False
 while not crashed:
