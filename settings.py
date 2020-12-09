@@ -12,3 +12,10 @@ directionVectors = {
     "East": borderingTileVectors[2],
     "West": borderingTileVectors[3]
 }
+
+directionDict = {
+    borderingTileVectors[0]: "North",
+    borderingTileVectors[1]: "South",
+    borderingTileVectors[2]: "East",
+    borderingTileVectors[3]: "West"
+}

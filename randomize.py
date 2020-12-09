@@ -39,6 +39,11 @@ def randomizeRoomsNonRect():
             openTiles.append((rowV, colV))
             openTiles = list(set(openTiles))
 
+            targetRoom = roomGrid[rowV][colV]
+            if targetRoom is not None:
+                room.destinations[settings.directionDict[v]] = targetRoom.ID
+
+
     """print("")
 
     for i in finalList:

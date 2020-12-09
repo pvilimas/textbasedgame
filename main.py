@@ -7,7 +7,7 @@ roomList, roomGrid, startingRoomID = randomizeRoomsNonRect()
 
 """
     options/checklist for tomorrow/in general (move function):
-    1) get rid of room.destinations and rely on the grid entirely
+    1) get rid of room.destinations and rely on the grid entirely (dont do this pls)
     2) revert back to the old way and dont move directly in the grid but with room.dest (for this to work, the grid has to be synced with every single dest dictionary)
     
     then fix all bugs (there's a lot)
@@ -21,6 +21,7 @@ roomList, roomGrid, startingRoomID = randomizeRoomsNonRect()
     add more directions to the dest array: NE NW SE SW
         what will be done with vertical rooms (climbing ladders/stairs to go up and down etc) 
     objectives - point counter for each item that is collected/used?
+    process input function ('n' = 'North' = 'north' etc)
 """
 
 def showDestinations(room):
@@ -71,7 +72,7 @@ def getCoords(r):  # a room
 
 def move(dir):
     row = col = 0
-    """global roomList, currentRoom, currentRoomID, movedThisTurn
+    global roomList, currentRoom, currentRoomID, movedThisTurn
     if(currentRoom.destinations[dir] is not None):
         currentRoomID = currentRoom.destinations[dir]
         currentRoom = roomList[currentRoomID]
@@ -79,22 +80,6 @@ def move(dir):
         movedThisTurn = True
     else:
         display("You went " + str(dir) + ". " + settings.errorMsg + currentRoom.msgOnStay)
-        movedThisTurn = False"""
-
-    global roomList, currentRoom, currentRoomID, movedThisTurn
-    currentRoom = roomList[currentRoomID]
-    v = settings.directionVectors[dir]
-    row, col = getCoords(currentRoom)
-    # print(f'{row+v[0]} {col+v[1]}')
-    row, col = row + v[0], col + v[1]
-    if (roomGrid[row][col] is not None):
-        currentRoomID = currentRoom.destinations[dir].ID
-        currentRoom = roomList[currentRoomID]
-        display("You went " + str(dir) + ". ")
-        movedThisTurn = True
-    else:
-        display("You went " + str(dir) + ". " +
-                settings.errorMsg + currentRoom.msgOnStay)
         movedThisTurn = False
 
 movedThisTurn = True
