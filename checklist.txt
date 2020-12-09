@@ -1,0 +1,16 @@
+options/checklist for tomorrow/in general (move function):
+    1) get rid of room.destinations and rely on the grid entirely (dont do this pls)
+    2) revert back to the old way and dont move directly in the grid but with room.dest (for this to work, the grid has to be synced with every single dest dictionary)
+    
+then fix all bugs (there's a lot)
+then implement items maybe (start by randomizing)
+then add item types (keys, doors, etc)
+then add text overrides ("you used the key" "you turned on the light" "you walked down the stairs" "you turned left and went into the cellar)
+    probably by manually setting the var for each room that needs it
+at some point, setup pygame shit and change display method to GUI
+    text scrolling would be needed, maybe a custom textbox class
+maybe hallways as special types of rooms (with a split path)
+add more directions to the dest array: NE NW SE SW
+    what will be done with vertical rooms (climbing ladders/stairs to go up and down etc) 
+objectives - point counter for each item that is collected/used?
+process input function ('n' = 'North' = 'north' etc)
