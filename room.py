@@ -21,4 +21,6 @@ class Room:
     def __format__(self, format):
         if (format == 'short'):
             return '{} [{}] | '.format(self.name.ljust(18, ' '), self.ID)
+        if (format == 'shorter'):
+            return '{}'.format(self.name).ljust(18, ' ')
         return '{} [{}]: {d} | '.format(self.name.ljust(18, ' '), self.ID, d = ' '.join(str(x).ljust(4, ' ') for x in self.destinations.values()))
