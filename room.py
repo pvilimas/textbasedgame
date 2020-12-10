@@ -1,10 +1,11 @@
 import item
 
+
 class Room:
 
-    msgOnEnter = "You have entered the " 
+    msgOnEnter = "You have entered the "
     msgOnStay = "You are in the "
-    
+
     def __init__(self, name, ID, itemList):
         self.name = name
         self.ID = ID
@@ -12,15 +13,15 @@ class Room:
         self.msgOnEnter += name
         self.msgOnStay += name
         self.destinations = {
-        "North": None,
-        "South": None,
-        "East": None,
-        "West": None
+            "North": None,
+            "South": None,
+            "East": None,
+            "West": None
         }
-    
+
     def __format__(self, format):
         if (format == 'short'):
             return '{} [{}] | '.format(self.name.ljust(18, ' '), self.ID)
         if (format == 'shorter'):
             return '{}'.format(self.name).ljust(18, ' ')
-        return '{} [{}]: {d} | '.format(self.name.ljust(18, ' '), self.ID, d = ' '.join(str(x).ljust(4, ' ') for x in self.destinations.values()))
+        return '{} [{}]: {d} | '.format(self.name.ljust(18, ' '), self.ID, d=' '.join(str(x).ljust(4, ' ') for x in self.destinations.values()))

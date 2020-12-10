@@ -43,7 +43,6 @@ def randomizeRoomsNonRect():
             if targetRoom is not None:
                 room.destinations[settings.directionDict[v]] = targetRoom.ID
 
-
     """print("")
 
     for i in finalList:
@@ -54,7 +53,8 @@ def randomizeRoomsNonRect():
     startingRoomID = roomGrid[floor(gridSize/2)][floor(gridSize/2)].ID
     return roomList, roomGrid, startingRoomID
 
-def randomizeRooms(): #old method will not be used
+
+def randomizeRooms():  # old method will not be used
     roomList = []
     possibleRoomNames = settings.possibleRoomNames
     shuffledNameList = deepcopy(possibleRoomNames)

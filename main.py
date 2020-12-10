@@ -61,8 +61,10 @@ def move(dir):
         display("You went " + str(dir) + ". ")
         movedThisTurn = True
     else:
-        display("You went " + str(dir) + ". " + settings.errorMsg + currentRoom.msgOnStay)
+        display("You went " + str(dir) + ". " +
+                settings.errorMsg + currentRoom.msgOnStay)
         movedThisTurn = False
+
 
 movedThisTurn = True
 crashed = False
