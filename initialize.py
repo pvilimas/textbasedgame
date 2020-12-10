@@ -5,6 +5,15 @@ from random import shuffle, choice
 from copy import deepcopy
 from math import sqrt, ceil, floor
 
+def linkRooms(a, b, dir): #dir = direction from a to b
+    pass
+    #assign opposites like N/S E/W up/down in/out etc
+
+def initializeManual():
+    roomList = [Room(x, i, []) for i, x in enumerate(settings.possibleRoomNames)]
+    for r in roomList:
+        print('{:short}'.format(r))
+    return roomList
 
 def randomizeRoomsNonRect():
     roomList = []
@@ -51,7 +60,7 @@ def randomizeRoomsNonRect():
     print("")"""
 
     startingRoomID = roomGrid[floor(gridSize/2)][floor(gridSize/2)].ID
-    return roomList, roomGrid, startingRoomID
+    return roomList
 
 
 def randomizeRooms():  # old method will not be used

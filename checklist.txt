@@ -1,6 +1,7 @@
 options/checklist for tomorrow/in general (move function):
     1) get rid of room.destinations and rely on the grid entirely (dont do this pls)
     2) revert back to the old way and dont move directly in the grid but with room.dest (for this to work, the grid has to be synced with every single dest dictionary)
+    3) delete grid and randomization
     
 then fix all bugs (there's a lot)
 then implement items maybe (start by randomizing)
@@ -14,3 +15,4 @@ add more directions to the dest array: NE NW SE SW
     what will be done with vertical rooms (climbing ladders/stairs to go up and down etc) 
 objectives - point counter for each item that is collected/used?
 process input function ('n' = 'North' = 'north' etc)
+explored rooms "to the north is the cellar" if youve explored it, otherwise "to the north is a dark hallway"
