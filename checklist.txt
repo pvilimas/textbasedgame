@@ -13,5 +13,6 @@ add more directions to the dest array: NE NW SE SW
 objectives - point counter for each item that is collected/used?
 process input function ('n' = 'North' = 'north' etc)
 explored rooms "to the north is the cellar" if youve explored it, otherwise "to the north is a dark hallway"
+item inventory/player class?
 
 make plot and story and hardcode all rooms (last thing)
