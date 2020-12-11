@@ -10,7 +10,7 @@ def linkRooms(a, b, dir): #dir = direction from a to b
     #assign opposites like N/S E/W up/down in/out etc
 
 def initializeManual():
-    roomList = [Room(x, i, []) for i, x in enumerate(settings.possibleRoomNames)]
+    roomList = [Room(name, i, []) for i, name in enumerate(settings.possibleRoomNames)]
     for r in roomList:
         print('{:short}'.format(r))
     return roomList
