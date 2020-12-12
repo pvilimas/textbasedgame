@@ -6,8 +6,22 @@ from copy import deepcopy
 from math import sqrt, ceil, floor
 
 def linkRooms(a, b, dir): #dir = direction from a to b
-    pass
-    #assign opposites like N/S E/W up/down in/out etc
+    #set the inverse first
+    if dir is "North":
+        b.destinations["South"] = a.ID
+    elif dir is "South":
+        b.destinations["North"] = a.ID
+    elif dir is "East":
+        b.destinations["West"] = a.ID
+    elif dir is "West":
+        b.destinations["East"] = a.ID
+    else:
+        pass #not sure what to put here
+    #set the dir from A to B, avoid invalid key error
+    try:
+        a.destinations[dir] = b.ID
+    except KeyError:
+        pass
 
 def initializeManual():
     roomList = [Room(name, i, []) for i, name in enumerate(settings.possibleRoomNames)]
@@ -15,7 +29,7 @@ def initializeManual():
         print('{:short}'.format(r))
     return roomList
 
-def randomizeRoomsNonRect():
+def randomizeRoomsNonRect(): #do not use this
     roomList = []
     possibleRoomNames = settings.possibleRoomNames
     shuffledNameList = deepcopy(possibleRoomNames)

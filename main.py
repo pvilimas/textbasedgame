@@ -10,6 +10,7 @@ def showDestinations(room):
     for k in room.destinations.keys():
         print(room.destinations[k])
 
+#grid based test methods, will not be used
 """def showRooms():
     s = ""
     for row in range(len(roomGrid)):
@@ -29,10 +30,10 @@ def showRoom(row, col):
     else:
         print('None')"""
 
-
 currentRoomID = 0
 currentRoom = roomList[currentRoomID]
 
+#later on, change this to GUI/pygame based
 def display(text):
     print("\n> {}\n".format(text))
 
@@ -48,6 +49,7 @@ def move(dir):
                 settings.errorMsg + currentRoom.msgOnStay)
         movedThisTurn = False
 
+# ------- MAIN GAME LOOP ------- #
 
 movedThisTurn = True
 crashed = False
@@ -66,3 +68,5 @@ while not crashed:
         display(settings.invalidDirMsg)
     except AttributeError:
         pass
+
+# ------- MAIN GAME LOOP ------- #

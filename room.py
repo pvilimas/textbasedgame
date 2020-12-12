@@ -3,6 +3,9 @@ import item
 
 class Room:
 
+    #later on, set self.roomNotFoundMsg to be the stuff from settings and then manually change it for certain rooms (text overrides)
+    #also maybe override the two methods below
+
     msgOnEnter = "You have entered the "
     msgOnStay = "You are in the "
 
@@ -19,6 +22,7 @@ class Room:
             "West": None
         }
 
+    # format method
     def __format__(self, format):
         if (format == 'short'):
             return '{} [{}] | '.format(self.name.ljust(18, ' '), self.ID)

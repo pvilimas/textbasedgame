@@ -4,7 +4,10 @@ invalidDirMsg = "Not a valid direction. "
 
 possibleRoomNames = ["Library", "Kitchen", "Terrace", "Fountain",
                      "Engine Room", "Garden", "Bedroom", "AP Office", "YSR Headquarters"]
+
+#everything below this line is useless
 # north = row-1, south = row+1, west = col-1, east = col+1
+# should be added to a room's row and col
 borderingTileVectors = [(-1, 0), (1, 0), (0, -1), (0, 1)]
 directionVectors = {
     "North": borderingTileVectors[0],
