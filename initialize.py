@@ -4,30 +4,57 @@ import settings
 from random import shuffle, choice
 from copy import deepcopy
 from math import sqrt, ceil, floor
-
-def linkRooms(a, b, dir): #dir = direction from a to b
-    #set the inverse first
-    if dir is "North":
-        b.destinations["South"] = a.ID
-    elif dir is "South":
-        b.destinations["North"] = a.ID
-    elif dir is "East":
-        b.destinations["West"] = a.ID
-    elif dir is "West":
-        b.destinations["East"] = a.ID
-    else:
-        pass #not sure what to put here
-    #set the dir from A to B, avoid invalid key error
-    try:
-        a.destinations[dir] = b.ID
-    except KeyError:
-        pass
+        
+roomList = []
 
 def initializeManual():
+    global roomList
     roomList = [Room(name, i, []) for i, name in enumerate(settings.possibleRoomNames)]
     for r in roomList:
         print('{:short}'.format(r))
+
+    linkRooms(0, 1, "South")
+    linkRooms(0, 2, "East")
+    linkRooms(0, 8, "West")
+    linkRooms(8, 5, "South")
+    linkRooms(1, 7, "East")
+    linkRooms(7, 4, "East")
+    linkRooms(2, 6, "North")
+    linkRooms(2, 3, "East")
+    linkRooms(3, 4, "South")
+
     return roomList
+
+def linkRooms(a, b, dir): #dir = direction from a to b
+    #accepts ints for a, b or room objs but must be set to rooms when the program rly starts
+        a, b = roomList[a], roomList[b] # if (isinstance(a, int) and isinstance(b, int)) else a, b - not needed
+        # print(type(a))
+    #set the inverse first
+        if dir == "North":
+            b.destinations["South"] = a.ID
+        elif dir == "South":
+            b.destinations["North"] = a.ID
+        elif dir == "East":
+            b.destinations["West"] = a.ID
+        elif dir == "West":
+            b.destinations["East"] = a.ID
+        else:
+            pass #not sure what to put here
+        #set the dir from A to B, avoid invalid key error
+        try:
+            a.destinations[dir] = b.ID
+        except KeyError:
+            pass
+
+def getRoom(input, rl): #rl = roomlist
+        if type(input) is int: # an ID
+            return rl[input]
+        elif type(input) is str: # a name
+            for r in rl:
+                if r.name == input:
+                    return r
+            else:
+                raise Exception
 
 def randomizeRoomsNonRect(): #do not use this
     roomList = []
@@ -65,14 +92,6 @@ def randomizeRoomsNonRect(): #do not use this
             targetRoom = roomGrid[rowV][colV]
             if targetRoom is not None:
                 room.destinations[settings.directionDict[v]] = targetRoom.ID
-
-    """print("")
-
-    for i in finalList:
-        print(str(i))
-    
-    print("")"""
-
     startingRoomID = roomGrid[floor(gridSize/2)][floor(gridSize/2)].ID
     return roomList
 
