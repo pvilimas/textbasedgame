@@ -1,6 +1,6 @@
 from item import Item
 from room import Room
-from initialize import randomizeRooms, randomizeRoomsNonRect, initializeManual
+from initialize import initializeManual
 import settings
 
 roomList = initializeManual()
