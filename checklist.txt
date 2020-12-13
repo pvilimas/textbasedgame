@@ -1,18 +1,22 @@
+not done:
+
 delete grid and randomization
     
 then fix all bugs (there's a lot)
 then implement items maybe (start by randomizing)
 then add item types (keys, doors, etc)
-then add text overrides ("you used the key" "you turned on the light" "you walked down the stairs" "you turned left and went into the cellar)
-    probably by manually setting the var for each room that needs it
+add text overrides for items
 at some point, setup pygame shit and change display method to GUI
     text scrolling would be needed, maybe a custom textbox class
 maybe hallways as special types of rooms (with a split path)
 add more directions to the dest array: NE NW SE SW - last priority before hardcoding
     what will be done with vertical rooms (climbing ladders/stairs to go up and down etc) 
 objectives - point counter for each item that is collected/used?
-DONE process input function ('n' = 'North' = 'north' etc)
+process input function ('n' = 'North' = 'north' etc)
 explored rooms "to the north is the cellar" if youve explored it, otherwise "to the north is a dark hallway"
 item inventory/player class?
 
 make plot and story and hardcode all rooms (last thing)
+
+done:
+add text overrides for rooms ("you used the key" "you turned on the light" "you walked down the stairs" "you turned left and went into the cellar)

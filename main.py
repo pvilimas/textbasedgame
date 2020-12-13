@@ -5,24 +5,30 @@ import settings
 
 roomList = initializeManual()
 
+
 def showDestinations(room):
     print(f'{room.ID}:')
     for k in room.destinations.keys():
         print(f'{k[0:1]} - {room.destinations[k]}')
 
+
 currentRoomID = 0
 currentRoom = roomList[currentRoomID]
 
-#later on, change this to GUI/pygame based
+# later on, change this to GUI/pygame based
+
+
 def display(text):
     print(f'\n> {text}\n')
+
 
 def processInput(i):
     for inputList in settings.inputModes:
         if i in inputList:
             return inputList[0]
     else:
-        return i
+        return i  # if i is invalid, this is fine and is better than raising an error
+
 
 def move(dir):
     global roomList, currentRoom, currentRoomID, movedThisTurn
@@ -32,10 +38,12 @@ def move(dir):
         display(f'You went {str(dir)}. ')
         movedThisTurn = True
     else:
-        display(f'You went {str(dir)}. {settings.errorMsg + currentRoom.msgOnStay}')
+        display(
+            f'You went {str(dir)}. {settings.errorMsg + currentRoom.msgOnStay}')
         movedThisTurn = False
 
 # ------- MAIN GAME LOOP ------- #
+
 
 movedThisTurn = True
 crashed = False

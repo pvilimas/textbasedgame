@@ -1,13 +1,17 @@
 import item
+import settings
 
 
 class Room:
 
-    #later on, set self.roomNotFoundMsg to be the stuff from settings and then manually change it for certain rooms (text overrides)
-    #also maybe override the two methods below
+    # both of these should be customized in initializeManual later
+    msgOnEnter = "You have entered the "  # upon entering
+    msgOnStay = "You are in the "  # after a failed attempt at moving
 
-    msgOnEnter = "You have entered the "
-    msgOnStay = "You are in the "
+    # error messages, can be customized in initializeManual
+    roomNotFoundMsg = settings.roomNotFoundMsg
+    cannotMoveMsg = settings.cannotMoveMsg
+    invalidDirMsg = settings.invalidDirMsg
 
     def __init__(self, name, ID, itemList):
         self.name = name
@@ -15,14 +19,12 @@ class Room:
         self.itemList = itemList
         self.msgOnEnter += name
         self.msgOnStay += name
-        self.destinations = {
-            "North": None,
-            "South": None,
-            "East": None,
-            "West": None
-        }
+        self.destinations = dict()
+        for d in settings.validDirections:
+            self.destinations.update({d: None})
 
     # format method
+
     def __format__(self, format):
         if (format == 'short'):
             return '{} [{}] | '.format(self.name.ljust(18, ' '), self.ID)
