@@ -11,8 +11,7 @@ roomList = []
 def initializeManual():
     global roomList
     # assuming we want to use all room names in that list
-    roomList = [Room(name, i, [])
-                for i, name in enumerate(settings.possibleRoomNames)]
+    roomList = [Room(name, i) for i, name in enumerate(settings.possibleRoomNames)]
     for r in roomList:
         print('{:short}'.format(r))
 
@@ -70,3 +69,6 @@ def getRoom(input, rl):  # rl = roomlist
                 return r
         else:
             raise Exception
+
+def addItemToRoom(r, i):
+    r.itemList.append(i)

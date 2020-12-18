@@ -29,6 +29,8 @@ def processInput(i):
     else:
         return i  # if i is invalid, this is fine and is better than raising an error
 
+def processCommand(c):
+    pass
 
 def move(dir):
     global roomList, currentRoom, currentRoomID, movedThisTurn

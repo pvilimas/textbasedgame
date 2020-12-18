@@ -4,8 +4,9 @@ import settings
 
 class Room:
 
-    # both of these should be customized in initializeManual later
+    # all of these should be customized in initializeManual later
     msgOnEnter = "You have entered the "  # upon entering
+    msgOnLook = "You are in the "
     msgOnStay = "You are in the "  # after a failed attempt at moving
 
     # error messages, can be customized in initializeManual
@@ -13,12 +14,13 @@ class Room:
     cannotMoveMsg = settings.cannotMoveMsg
     invalidDirMsg = settings.invalidDirMsg
 
-    def __init__(self, name, ID, itemList):
+    def __init__(self, name, ID):
         self.name = name
         self.ID = ID
-        self.itemList = itemList
-        self.msgOnEnter += name
-        self.msgOnStay += name
+        self.itemList = []
+        self.msgOnEnter = f'You have entered the {self.name}'
+        self.msgOnLook = f'You are in the {self.name}'
+        self.msgOnStay = f'You are in the {self.name}'
         self.destinations = dict()
         for d in settings.validDirections:
             self.destinations.update({d: None})
