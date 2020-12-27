@@ -7,4 +7,10 @@ class Item:
         self.name = name
         self.keyword = keyword
 
-        self.msgOnUse = f'You used the {self.name}'
+        self.msgOnUse = f'You used the {self.name}.'
+
+    def __format__(self, format):
+        return self.name
+
+    def use(self):
+        pass

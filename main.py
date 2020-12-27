@@ -12,6 +12,15 @@ def showDestinations(room):
         print(f'{k[0:1]} - {room.destinations[k]}')
 
 
+def showItems(room):
+    print(f'{room.ID}:')
+    if len(room.itemList) == 0:
+        print('No items')
+        return
+    for i in room.itemList:
+        print(f'{i}')
+
+
 currentRoomID = 0
 currentRoom = roomList[currentRoomID]
 
@@ -22,15 +31,26 @@ def display(text):
     print(f'\n> {text}\n')
 
 
-def processInput(i):
+def processDirection(i):  # used for directions (capitalization)
     for inputList in settings.inputModes:
         if i in inputList:
             return inputList[0]
     else:
         return i  # if i is invalid, this is fine and is better than raising an error
 
-def processCommand(c):
-    pass
+
+# will be for stuff like using items or looking around in a room
+def processGameCommand(c):
+    # pass the full command to this: like "use rope"
+    if c in settings.lookAroundCmds:
+        display(currentRoom.msgOnLook)
+    for item in currentRoom.itemList:
+        if c == f'{item.keyword} {item.name}':
+            item.use()
+            display(item.msgOnUse)
+    else:
+        raise Exception
+
 
 def move(dir):
     global roomList, currentRoom, currentRoomID, movedThisTurn
@@ -41,7 +61,7 @@ def move(dir):
         movedThisTurn = True
     else:
         display(
-            f'You went {str(dir)}. {settings.errorMsg + currentRoom.msgOnStay}')
+            f'You tried to go {str(dir)}. {settings.errorMsg + currentRoom.msgOnStay}')
         movedThisTurn = False
 
 # ------- MAIN GAME LOOP ------- #
@@ -51,9 +71,9 @@ movedThisTurn = True
 crashed = False
 while not crashed:
     currentRoom = roomList[currentRoomID]
-    showDestinations(currentRoom)
+    showItems(currentRoom)
     try:
-        newDir = processInput(input(f'> {currentRoom.msgOnEnter}\n')) if (
+        newDir = processDirection(input(f'> {currentRoom.msgOnEnter}\n')) if (
             movedThisTurn and currentRoom is not None) else input('> ')
     except AttributeError:
         newDir = None
@@ -61,7 +81,10 @@ while not crashed:
     try:
         move(newDir.replace('\n', ''))
     except KeyError:
-        display(settings.invalidDirMsg)
+        try:
+            processGameCommand("use rope")
+        except:
+            display(settings.invalidDirMsg)
     except AttributeError:
         pass
 

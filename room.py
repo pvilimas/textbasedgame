@@ -5,9 +5,9 @@ import settings
 class Room:
 
     # all of these should be customized in initializeManual later
-    msgOnEnter = "You have entered the "  # upon entering
-    msgOnLook = "You are in the "
-    msgOnStay = "You are in the "  # after a failed attempt at moving
+    msgOnEnter = ""  # upon entering
+    msgOnLook = ""  # after using the "look around" command
+    msgOnStay = ""  # after a failed attempt at moving
 
     # error messages, can be customized in initializeManual
     roomNotFoundMsg = settings.roomNotFoundMsg
@@ -19,7 +19,7 @@ class Room:
         self.ID = ID
         self.itemList = []
         self.msgOnEnter = f'You have entered the {self.name}'
-        self.msgOnLook = f'You are in the {self.name}'
+        self.msgOnLook = self.msgOnEnter
         self.msgOnStay = f'You are in the {self.name}'
         self.destinations = dict()
         for d in settings.validDirections:

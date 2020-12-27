@@ -13,3 +13,5 @@ inputModes = (('North', 'north', 'N', 'n'), ('South', 'south', 'S', 's'), ('East
 
 # these are the only ones the move method can handle
 validDirections = (dirList[0] for dirList in inputModes)
+
+lookAroundCmds = ("look", "look around", "Look", "Look around", "Look Around")

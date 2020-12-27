@@ -13,7 +13,7 @@ def initializeManual():
     # assuming we want to use all room names in that list
     roomList = [Room(name, i) for i, name in enumerate(settings.possibleRoomNames)]
     for r in roomList:
-        print('{:short}'.format(r))
+        print(f'{r:short}')
 
     linkRooms(0, 1, "South")
     linkRooms(0, 2, "East")
@@ -24,6 +24,8 @@ def initializeManual():
     linkRooms(2, 6, "North")
     linkRooms(2, 3, "East")
     linkRooms(3, 4, "South")
+
+    addItemToRoom(Item("rope", "use"), 0)
 
     return roomList
 
@@ -70,5 +72,7 @@ def getRoom(input, rl):  # rl = roomlist
         else:
             raise Exception
 
-def addItemToRoom(r, i):
+def addItemToRoom(i, r):
+    if type(r) is int:
+        r = roomList[r]
     r.itemList.append(i)
