@@ -2,7 +2,7 @@ from item import Item
 from room import Room
 from initialize import randomizeRooms, randomizeRoomsNonRect, initializeManual
 import settings
-
+# wqetq
 roomList = initializeManual()
 
 def showDestinations(room):
