@@ -1,28 +1,32 @@
 import item
+import settings
 
 
 class Room:
 
-    #later on, set self.roomNotFoundMsg to be the stuff from settings and then manually change it for certain rooms (text overrides)
-    #also maybe override the two methods below
+    # all of these should be customized in initializeManual later
+    msgOnEnter = ""  # upon entering
+    msgOnLook = ""  # after using the "look around" command
+    msgOnStay = ""  # after a failed attempt at moving
 
-    msgOnEnter = "You have entered the "
-    msgOnStay = "You are in the "
+    # error messages, can be customized in initializeManual
+    roomNotFoundMsg = settings.roomNotFoundMsg
+    cannotMoveMsg = settings.cannotMoveMsg
+    invalidDirMsg = settings.invalidDirMsg
 
-    def __init__(self, name, ID, itemList):
+    def __init__(self, name, ID):
         self.name = name
         self.ID = ID
-        self.itemList = itemList
-        self.msgOnEnter += name
-        self.msgOnStay += name
-        self.destinations = {
-            "North": None,
-            "South": None,
-            "East": None,
-            "West": None
-        }
+        self.itemList = []
+        self.msgOnEnter = f'You have entered the {self.name}'
+        self.msgOnLook = self.msgOnEnter
+        self.msgOnStay = f'You are in the {self.name}'
+        self.destinations = dict()
+        for d in settings.validDirections:
+            self.destinations.update({d: None})
 
     # format method
+
     def __format__(self, format):
         if (format == 'short'):
             return '{} [{}] | '.format(self.name.ljust(18, ' '), self.ID)

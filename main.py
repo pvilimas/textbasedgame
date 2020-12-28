@@ -1,70 +1,89 @@
 from item import Item
 from room import Room
-from initialize import randomizeRooms, randomizeRoomsNonRect, initializeManual
+from initialize import initializeManual
 import settings
 roomList = initializeManual()
 
+
 def showDestinations(room):
-    print('{}:'.format(room.ID))
+    print(f'{room.ID}:')
     for k in room.destinations.keys():
-        print(room.destinations[k])
-
-#grid based test methods, will not be used
-"""def showRooms():
-    s = ""
-    for row in range(len(roomGrid)):
-        for col in range(len(roomGrid[row])):
-            room = roomGrid[row][col]
-            if (room is not None):
-                s += '{:shorter} '.format(room)
-            else:
-                s += 'None'.ljust(18, ' ')
-        s += "\n"
-    print(s)
+        print(f'{k[0:1]} - {room.destinations[k]}')
 
 
-def showRoom(row, col):
-    if(roomGrid[row][col] is not None):
-        print('{:short}'.format(roomGrid[row][col]))
-    else:
-        print('None')"""
+def showItems(room):
+    print(f'{room.ID}:')
+    if len(room.itemList) == 0:
+        print('No items')
+        return
+    for i in room.itemList:
+        print(f'{i}')
+
 
 currentRoomID = 0
 currentRoom = roomList[currentRoomID]
 
-#later on, change this to GUI/pygame based
+# later on, change this to GUI/pygame based
+
+
 def display(text):
-    print("\n> {}\n".format(text))
+    print(f'\n> {text}\n')
+
+
+def processDirection(i):  # used for directions (capitalization)
+    for inputList in settings.inputModes:
+        if i in inputList:
+            return inputList[0]
+    else:
+        return i  # if i is invalid, this is fine and is better than raising an error
+
+
+# will be for stuff like using items or looking around in a room
+def processGameCommand(c):
+    # pass the full command to this: like "use rope"
+    if c in settings.lookAroundCmds:
+        display(currentRoom.msgOnLook)
+    for item in currentRoom.itemList:
+        if c == f'{item.keyword} {item.name}':
+            item.use()
+            display(item.msgOnUse)
+    else:
+        raise Exception
+
 
 def move(dir):
     global roomList, currentRoom, currentRoomID, movedThisTurn
     if(currentRoom.destinations[dir] is not None):
         currentRoomID = currentRoom.destinations[dir]
         currentRoom = roomList[currentRoomID]
-        display("You went " + str(dir) + ". ")
+        display(f'You went {str(dir)}. ')
         movedThisTurn = True
     else:
-        display("You went " + str(dir) + ". " +
-                settings.errorMsg + currentRoom.msgOnStay)
+        display(
+            f'You tried to go {str(dir)}. {settings.errorMsg + currentRoom.msgOnStay}')
         movedThisTurn = False
 
 # ------- MAIN GAME LOOP ------- #
+
 
 movedThisTurn = True
 crashed = False
 while not crashed:
     currentRoom = roomList[currentRoomID]
-    showDestinations(currentRoom)
+    showItems(currentRoom)
     try:
-        newDir = input("> {}\n".format(currentRoom.msgOnEnter)) if (
-            movedThisTurn and currentRoom is not None) else input("> ")
+        newDir = processDirection(input(f'> {currentRoom.msgOnEnter}\n')) if (
+            movedThisTurn and currentRoom is not None) else input('> ')
     except AttributeError:
         newDir = None
     movedThisTurn = False
     try:
-        move(newDir.replace("\n", ""))
+        move(newDir.replace('\n', ''))
     except KeyError:
-        display(settings.invalidDirMsg)
+        try:
+            processGameCommand("use rope")
+        except:
+            display(settings.invalidDirMsg)
     except AttributeError:
         pass
 
