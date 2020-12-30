@@ -1,5 +1,6 @@
 not done:
 
+fix short room format for NE NW SE SW
 implement items maybe (start by randomizing)
 add item types (keys, doors, etc)
 add text overrides for items
