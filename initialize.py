@@ -6,8 +6,6 @@ from copy import deepcopy
 from math import sqrt, ceil, floor
 
 roomList = []
-
-
 def initializeManual():
     global roomList
     # assuming we want to use all room names in that list
