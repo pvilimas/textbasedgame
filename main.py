@@ -70,7 +70,8 @@ movedThisTurn = True
 crashed = False
 while not crashed:
     currentRoom = roomList[currentRoomID]
-    showItems(currentRoom)
+    #showItems(currentRoom)
+    #showDestinations(currentRoom)
     try:
         newDir = processDirection(input(f'> {currentRoom.msgOnEnter}\n')) if (
             movedThisTurn and currentRoom is not None) else input('> ')
@@ -84,7 +85,7 @@ while not crashed:
             processGameCommand("use rope")
         except:
             display(settings.invalidDirMsg)
-    except AttributeError:
+    except:
         pass
 
 # ------- MAIN GAME LOOP ------- #
