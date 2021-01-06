@@ -7,7 +7,7 @@ invalidDirMsg = "Not a valid direction. "
 # USE TUPLES NOT LISTS HERE (saves memory)
 
 possibleRoomNames = ("Library", "Kitchen", "Terrace", "Fountain",
-                     "Engine Room", "Garden", "Bedroom", "AP Office", "YSR Headquarters")
+                     "Engine Room", "Garden", "Bedroom", "AP Office", "YSR Headquarters", "Hoe Hackett Shack")
 inputModes = (('North', 'north', 'N', 'n'), ('South', 'south', 'S', 's'), ('East', 'east', 'E', 'e'), ('West', 'west', 'W', 'w'),
               ('Northeast', 'northeast', 'NE', 'ne'), ('Southeast', 'southeast', 'SE', 'se'), ('Northwest', 'northwest', 'NW', 'nw'), ('Southwest', 'southwest', 'SW', 'sw'))
 
