@@ -6,20 +6,22 @@ roomList = initializeManual()
 
 inventory = [] #implement later
 
-progression = { #explain this to ab later
+progression = {
     'completed': [],
     'remaining': [],
     'next': [] # set this to remaining[0] every turn
 }
 
+#methods for debugging only
 def showDestinations(room):
-    print(f'{room.ID}:')
+    #print('Available Rooms:')
     for k in room.destinations.keys():
-        print(f'{k[0:1]} - {room.destinations[k]}')
+        if room.destinations[k] is not None:
+            print(f'{settings.abbrDirections[k]} - {roomList[room.destinations[k]].name}')
 
 
 def showItems(room):
-    print(f'{room.ID}:')
+    print('Items:')
     if len(room.itemList) == 0:
         print('No items')
         return
@@ -42,6 +44,7 @@ def processCommand(c):
     if not itemCommandCheck(c):
         if not gameCommandCheck(c):
             if not movementCommandCheck(c):
+                display(currentRoom.msgOnStay)
                 print("invalid input!") #fix this pls
             else:
                 try:
@@ -77,25 +80,29 @@ def gameCommandCheck(c):
 
 def movementCommandCheck(dir):
     global roomList, currentRoom, currentRoomID, movedThisTurn
-    if(currentRoom.destinations[dir] is not None):
-        currentRoomID = currentRoom.destinations[dir]
-        currentRoom = roomList[currentRoomID]
-        display(f'You went {str(dir)}. ') #CUSTOMIZE THIS LATER
-        movedThisTurn = True
-        return True
+    movedThisTurn = False
+
+    for inputList in settings.inputModes:
+        if dir in inputList:
+            dir = inputList[0]
+            break
     else:
-        display(
-            f'You tried to go {str(dir)}. {settings.invalidDirMsg + currentRoom.msgOnStay}')
-        movedThisTurn = False
         return False
 
-def processDirection(i):  # used for directions to get the version the program uses - "North" is better than "north" or "n"
-    for inputList in settings.inputModes:
-        if i in inputList:
-            return inputList[0]
-    else:
-        return i  # if i is invalid, this is fine and is better than raising an error
-
+    try:
+        if(currentRoom.destinations[dir] is not None):
+            currentRoomID = currentRoom.destinations[dir]
+            currentRoom = roomList[currentRoomID]
+            display(f'You went {str(dir)}. ') #CUSTOMIZE THIS LATER
+            movedThisTurn = True
+            return True
+        else:
+            display(
+                f'You tried to go {str(dir)}. {settings.invalidDirMsg}') fix this please :)
+            movedThisTurn = False
+            return False
+    except:
+        pass
 
 # will be for stuff like using items or looking around in a room
 def processGameCommand(c):
@@ -129,25 +136,8 @@ crashed = False
 while not crashed:
     currentRoom = roomList[currentRoomID]
     showItems(currentRoom)
-    #showDestinations(currentRoom)
+    showDestinations(currentRoom)
+    processCommand(input(f'> {currentRoom.msgOnEnter}\n')) if movedThisTurn else processCommand(input(f'> {currentRoom.msgOnStay}\n'))
 
-    newDir = processCommand(input(f'> {currentRoom.msgOnEnter}\n')) if (
-            movedThisTurn and currentRoom is not None) else input('> ')
-
-    """try:
-        newDir = processDirection(input(f'> {currentRoom.msgOnEnter}\n')) if (
-            movedThisTurn and currentRoom is not None) else input('> ')
-    except AttributeError:
-        newDir = None
-    movedThisTurn = False
-    try:
-        move(newDir.replace('\n', ''))
-    except KeyError:
-        try:
-            processGameCommand("use rope")
-        except:
-            display(settings.invalidDirMsg)
-    except:
-        pass"""
 
 # ------- MAIN GAME LOOP ------- #

@@ -10,6 +10,9 @@ possibleRoomNames = ("Library", "Kitchen", "Terrace", "Fountain",
                      "Engine Room", "Garden", "Bedroom", "AP Office", "YSR Headquarters", "Hoe Hackett Shack")
 inputModes = (('North', 'north', 'N', 'n'), ('South', 'south', 'S', 's'), ('East', 'east', 'E', 'e'), ('West', 'west', 'W', 'w'),
               ('Northeast', 'northeast', 'NE', 'ne'), ('Southeast', 'southeast', 'SE', 'se'), ('Northwest', 'northwest', 'NW', 'nw'), ('Southwest', 'southwest', 'SW', 'sw'))
+abbrDirections = dict()
+for i in inputModes:
+    abbrDirections.update({i[0]: i[2]})
 
 # these are the only ones the move method can handle
 validDirections = (dirList[0] for dirList in inputModes)
