@@ -22,6 +22,8 @@ def initializeManual():
     linkRooms(2, 6, "North")
     linkRooms(2, 3, "East")
     linkRooms(3, 4, "South")
+    linkRooms(5, 9, "South")
+    linkRooms(1, 9, "Southwest")
 
     addItemToRoom(Item("rope", "use"), 0)
 

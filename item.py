@@ -2,9 +2,13 @@
 class Item:
 
 
-    def __init__(self, name, keyword):
+    def __init__(self, name, kwUse): #kwUse MUST BE A TUPLE OR A LIST
         self.name = name
-        self.keyword = keyword
+        self.keywords = {
+            'use': kwUse,
+            'pickup': ['pick up'],
+            'drop': ['drop']
+        }
         self.msgOnUse = f'You used the {self.name}.'
 
     def __format__(self, format):
