@@ -8,7 +8,7 @@ invalidCmdMsg = 'Command not recognized! '
 
 possibleRoomNames = ('Library', 'Kitchen', 'Terrace', 'Fountain',
                      'Engine Room', 'Garden', 'Bedroom', 'AP Office', 'YSR Headquarters', 'Hoe Hackett Shack')
-possibleItemNames = ('rope')
+possibleItemNames = ('rope', 'computer', 'plunger', 'daddy kehne head polish', 'apple')
 inputModes = (('North', 'north', 'N', 'n'), ('South', 'south', 'S', 's'), ('East', 'east', 'E', 'e'), ('West', 'west', 'W', 'w'),
               ('Northeast', 'northeast', 'NE', 'ne'), ('Southeast', 'southeast', 'SE', 'se'), ('Northwest', 'northwest', 'NW', 'nw'), ('Southwest', 'southwest', 'SW', 'sw'))
 
@@ -22,3 +22,8 @@ validDirections = (dirList[0] for dirList in inputModes)
 
 lookAroundCmds = ('look', 'look around', 'Look', 'Look around', 'Look Around') #hmm i wonder what these do
 checkInvCmds = ('inventory', 'Inventory', 'inv', 'Inv') #commands to look through the inventory
+
+class CannotTakeItemException(Exception):
+    pass
+class ItemNotInInventoryException(Exception):
+    pass

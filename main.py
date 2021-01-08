@@ -4,9 +4,9 @@ from initialize import initializeManual
 import settings
 roomList, itemList = initializeManual()
 
-inventory = []
+inventory = itemList
 
-progression = {
+progression = { #do this much later
     'completed': [],
     'remaining': [],
     'next': []  # set this to remaining[0] every turn
@@ -34,7 +34,7 @@ def showItems(room):
 
 def showInventory():  # this one's gotta actually be detailed and look good bc it will be in the game
     global inventory
-    pass
+    display(f"Your inventory contains {' and '.join(repr(i) for i in inventory)}")
 
 
 currentRoomID = 0
@@ -79,9 +79,7 @@ def processCommand(c):
         else: #add other commands before this one (this should be the last in the chain)
             for item in currentRoom.itemList:
                 for k, v in item.keywords.items():
-                    if c == 'pickup':
-                        if not item.canBePickedUp: return False #should be the right logic for this
-                        else: pickUpItem(item.ID)
+                    if c == 'pickup': pickUpItem(item.ID)
                     elif c == 'use': item.use() #does nothing yet
                     elif c == 'drop': dropItem(item.ID)
 
@@ -89,6 +87,7 @@ def processCommand(c):
 
     def move(dir):
         global roomList, currentRoom, currentRoomID, movedThisTurn
+
         if(currentRoom.destinations[dir] is not None):
             currentRoomID = currentRoom.destinations[dir]
             currentRoom = roomList[currentRoomID]
@@ -99,14 +98,14 @@ def processCommand(c):
                 f'You tried to go {str(dir)}. {settings.errorMsg + currentRoom.msgOnStay}')
             movedThisTurn = False
 
+    def movementCommandCheck(dir):
+        global roomList, currentRoom, currentRoomID, movedThisTurn
+        movedThisTurn = False
+
         for inputList in settings.inputModes:
             if dir in inputList:
                 dir = inputList[0]
                 break
-
-    def movementCommandCheck(dir):
-        global roomList, currentRoom, currentRoomID, movedThisTurn
-        movedThisTurn = False
 
         try:
             if(currentRoom.destinations[dir] is not None):
@@ -151,6 +150,7 @@ while not crashed:
     currentRoom = roomList[currentRoomID]
     # showItems(currentRoom)
     # showDestinations(currentRoom)
+    showInventory()
     processCommand(input(f'> {currentRoom.msgOnEnter}\n> ')) if movedThisTurn else processCommand(
         input(f'> {currentRoom.msgOnStay}\n> '))
 
