@@ -4,17 +4,18 @@ invalidDirMsg = 'You can\'t go that way! '
 # displayed when a player tries to move sdmcnsbnd or use the 23846sajbd
 invalidCmdMsg = 'Command not recognized! '
 # displayed when a player tries to interact with an item that doesn't exist
-invalidItemMsg = 'That item doesn\'t exist!'
+invalidItemMsg = 'That item doesn\'t exist! '
 
 # USE TUPLES NOT LISTS HERE (saves memory)
 
 possibleRoomNames = ('Library', 'Kitchen', 'Terrace', 'Fountain',
                      'Engine Room', 'Garden', 'Bedroom', 'AP Office', 'YSR Headquarters', 'Hoe Hackett Shack')
 possibleItemNames = ('rope', 'computer', 'plunger', 'daddy kehne head polish', 'apple')
+pluralItemNames = ('rope', 'daddy kehne head polish')
 inputModes = (('North', 'north', 'N', 'n'), ('South', 'south', 'S', 's'), ('East', 'east', 'E', 'e'), ('West', 'west', 'W', 'w'),
               ('Northeast', 'northeast', 'NE', 'ne'), ('Southeast', 'southeast', 'SE', 'se'), ('Northwest', 'northwest', 'NW', 'nw'), ('Southwest', 'southwest', 'SW', 'sw'))
 
-# this only exists for showDestinations purposes              
+# this only exists for showDestinations purposes - Northwest: NW            
 abbrDirections = dict()
 for i in inputModes:
     abbrDirections.update({i[0]: i[2]})
