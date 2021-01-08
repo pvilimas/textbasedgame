@@ -17,9 +17,9 @@ class Room:
         self.name = name
         self.ID = ID
         self.itemList = []
-        self.msgOnEnter = f'You have entered the {self.name}.'
+        self.msgOnEnter = f'You have entered the {self.name}. '
         self.msgOnLook = self.msgOnEnter
-        self.msgOnStay = f'You are in the {self.name}.'
+        self.msgOnStay = f'You are in the {self.name}. '
         self.destinations = dict()
         for d in settings.validDirections:
             self.destinations.update({d: None})

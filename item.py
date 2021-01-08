@@ -13,7 +13,8 @@ class Item:
         self.canBePickedUp = True #must be set to false manually in initializeManual
 
     def __format__(self, format):
-        return f'an {self.name}' if self.name[0] in 'aeiou' else f'a {self.name}'
+        if self.name == 'rope': return f'some {self.name}' #add more conditions here
+        else: return f'an {self.name}' if self.name[0] in 'aeiou' else f'a {self.name}'
 
     def __repr__(self):
         return self.__format__(self)

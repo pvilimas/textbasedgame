@@ -6,7 +6,7 @@ roomList, itemList = initializeManual()
 
 inventory = itemList
 
-progression = { #do this much later
+progression = {  # do this much later
     'completed': [],
     'remaining': [],
     'next': []  # set this to remaining[0] every turn
@@ -34,7 +34,15 @@ def showItems(room):
 
 def showInventory():  # this one's gotta actually be detailed and look good bc it will be in the game
     global inventory
-    display(f"Your inventory contains {' and '.join(repr(i) for i in inventory)}")
+    display(
+        f"Your inventory contains {' and '.join(repr(i) for i in inventory)}")
+
+
+def lookAround():  # same here
+    global currentRoom
+    itemString = 'No items can be found here. ' if len(
+        currentRoom.itemList) == 0 else f"The items that can be found here are: {' and '.join(repr(i) for i in currentRoom.itemList)}. "
+    display(f'{currentRoom.msgOnLook}{itemString}')
 
 
 currentRoomID = 0
@@ -50,15 +58,22 @@ def display(text):
 
 
 def pickUpItem(itemID):
+    global currentRoom
     item = itemList[itemID]
-    if not item.canBePickedUp: raise settings.CannotTakeItemException
-    else: inventory.append(itemID)
-    make sure to remove it from the room list that it's currently in :)
+    if not item.canBePickedUp or item not in currentRoom.itemList:
+        raise settings.CannotTakeItemException
+    else:
+        inventory.append(itemID)
+
 
 def dropItem(itemID):
     item = itemList[itemID]
-    if item not in inventory: raise settings.ItemNotInInventoryException #maybe implicitly raise a value error here instead?
-    else: inventory.remove(itemID)
+    if item not in inventory:
+        # maybe implicitly raise a value error here instead?
+        raise settings.ItemNotInInventoryException
+    else:
+        inventory.remove(itemID)
+
 
 def processCommand(c):
 
@@ -76,22 +91,27 @@ def processCommand(c):
     def gameCommandCheck(c):
         # pass the full command to this: like "use rope"
         if c in settings.lookAroundCmds:
-            display(currentRoom.msgOnLook)
+            lookAround()
             return True
         elif c in settings.checkInvCmds:
             showInventory()
             return True
-        else: #add other commands before this one (this should be the last in the chain)
+        # add other commands before this one (this should be the last in the chain)
+        else:
             for item in currentRoom.itemList:
-                #command should look like keyword + space + itemName: "use rope"
+                # command should look like keyword + space + itemName: "use rope"
                 for kw in item.keywords:
                     if c == f'{kw} {item.name}':
                         try:
-                            if kw == 'use': item.use()
-                            elif kw == 'pick up': pickUpItem(item.ID)
-                            elif kw == 'drop': dropItem(item.ID)
-                            else: return False #is this ok?
-                        except: #might have to be more specific here later with diff error types
+                            if kw == 'use':
+                                item.use()
+                            elif kw == 'pick up':
+                                pickUpItem(item.ID)
+                            elif kw == 'drop':
+                                dropItem(item.ID)
+                            else:
+                                return False  # is this ok?
+                        except:  # might have to be more specific here later with diff error types
                             display(settings.invalidItemMsg)
 
         return False
@@ -99,7 +119,7 @@ def processCommand(c):
     def move(dir):
         global roomList, currentRoom, currentRoomID, movedThisTurn
 
-        if(currentRoom.destinations[dir] is not None): 
+        if(currentRoom.destinations[dir] is not None):
             currentRoomID = currentRoom.destinations[dir]
             currentRoom = roomList[currentRoomID]
             display(f'You went {str(dir)}. ')
