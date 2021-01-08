@@ -44,8 +44,7 @@ def processCommand(c):
     if not itemCommandCheck(c):
         if not gameCommandCheck(c):
             if not movementCommandCheck(c):
-                display(currentRoom.msgOnStay)
-                print("invalid input!") #fix this pls
+                pass
             else:
                 try:
                     global movedThisTurn
@@ -86,8 +85,6 @@ def movementCommandCheck(dir):
         if dir in inputList:
             dir = inputList[0]
             break
-    else:
-        return False
 
     try:
         if(currentRoom.destinations[dir] is not None):
@@ -97,15 +94,17 @@ def movementCommandCheck(dir):
             movedThisTurn = True
             return True
         else:
+            # if there is just no room in the direction, but if the dir is valid
             display(
-                f'You tried to go {str(dir)}. {settings.invalidDirMsg}') fix this please :)
+                f'You tried to go {str(dir)}. {settings.invalidDirMsg}')
             movedThisTurn = False
             return False
-    except:
-        pass
+    except KeyError:
+        #if the player inputs some shit like asjbdahs for the direction
+        display(settings.invalidCmdMsg)
 
 # will be for stuff like using items or looking around in a room
-def processGameCommand(c):
+"""def processGameCommand(c):
     # pass the full command to this: like "use rope"
     if c in settings.lookAroundCmds:
         display(currentRoom.msgOnLook)
@@ -114,7 +113,7 @@ def processGameCommand(c):
             item.use()
             display(item.msgOnUse)
     else:
-        raise Exception
+        raise Exception"""
 
 
 def move(dir):
@@ -135,9 +134,9 @@ def move(dir):
 crashed = False
 while not crashed:
     currentRoom = roomList[currentRoomID]
-    showItems(currentRoom)
-    showDestinations(currentRoom)
-    processCommand(input(f'> {currentRoom.msgOnEnter}\n')) if movedThisTurn else processCommand(input(f'> {currentRoom.msgOnStay}\n'))
+    #showItems(currentRoom)
+    #showDestinations(currentRoom)
+    processCommand(input(f'> {currentRoom.msgOnEnter}\n> ')) if movedThisTurn else processCommand(input(f'> {currentRoom.msgOnStay}\n> '))
 
 
 # ------- MAIN GAME LOOP ------- #

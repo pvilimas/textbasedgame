@@ -1,4 +1,3 @@
-# not implemented at all
 class Item:
 
 
