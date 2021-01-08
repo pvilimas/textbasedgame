@@ -1,8 +1,8 @@
 roomNotFoundMsg = "Room not found. "  # currently unused
 # displayed when a player tries to move north when there's no room that way
-invalidDirMsg = "Not a valid direction. "
+invalidDirMsg = "You can't go that way! "
 # displayed when a player tries to move sdmcnsbnd or use the 23846sajbd
-invalidCmdMsg = "Command not recognized. "
+invalidCmdMsg = "Command not recognized! "
 
 # USE TUPLES NOT LISTS HERE (saves memory)
 

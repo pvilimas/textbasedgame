@@ -65,11 +65,7 @@ def processCommand(c):
         # there will be more commands later and more things in the if/else chain here later (like seeing the inventory contents)
         return False
 
-    def movementCommandCheck(dir):
-        global roomList, currentRoom, currentRoomID, movedThisTurn
-        movedThisTurn = False
-
-        def move(dir):
+    def move(dir):
             global roomList, currentRoom, currentRoomID, movedThisTurn
             if(currentRoom.destinations[dir] is not None):
                 currentRoomID = currentRoom.destinations[dir]
@@ -81,10 +77,14 @@ def processCommand(c):
                     f'You tried to go {str(dir)}. {settings.errorMsg + currentRoom.msgOnStay}')
                 movedThisTurn = False
 
-        for inputList in settings.inputModes:
-            if dir in inputList:
-                dir = inputList[0]
-                break
+            for inputList in settings.inputModes:
+                if dir in inputList:
+                    dir = inputList[0]
+                    break
+
+    def movementCommandCheck(dir):
+        global roomList, currentRoom, currentRoomID, movedThisTurn
+        movedThisTurn = False
 
         try:
             if(currentRoom.destinations[dir] is not None):
