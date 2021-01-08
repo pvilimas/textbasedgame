@@ -88,7 +88,7 @@ def processCommand(c):
     def move(dir):
         global roomList, currentRoom, currentRoomID, movedThisTurn
 
-        if(currentRoom.destinations[dir] is not None):
+        if(currentRoom.destinations[dir] is not None): 
             currentRoomID = currentRoom.destinations[dir]
             currentRoom = roomList[currentRoomID]
             display(f'You went {str(dir)}. ')
