@@ -4,7 +4,7 @@ from initialize import initializeManual
 import settings
 roomList, itemList = initializeManual()
 
-inventory = []  # implement later
+inventory = []
 
 progression = {
     'completed': [],
@@ -32,6 +32,11 @@ def showItems(room):
         print(f'{i}')
 
 
+def showInventory():  # this one's gotta actually be detailed and look good bc it will be in the game
+    global inventory
+    pass
+
+
 currentRoomID = 0
 currentRoom = roomList[currentRoomID]
 
@@ -43,7 +48,11 @@ movedThisTurn = True
 def display(text):
     print(f'\n> {text}\n')
 
+
 def pickUpItem(itemID):
+    pass
+
+def dropItem(itemID):
     pass
 
 def processCommand(c):
@@ -64,25 +73,36 @@ def processCommand(c):
         if c in settings.lookAroundCmds:
             display(currentRoom.msgOnLook)
             return True
-        # there will be more commands later and more things in the if/else chain here later (like seeing the inventory contents)
+        elif c in settings.checkInvCmds:
+            showInventory()
+            return True
+        else: #add other commands before this one (this should be the last in the chain)
+            for item in currentRoom.itemList:
+                for k, v in item.keywords.items():
+                    if c == 'pickup':
+                        if not item.canBePickedUp: return False #should be the right logic for this
+                        else: pickUpItem(item.ID)
+                    elif c == 'use': item.use() #does nothing yet
+                    elif c == 'drop': dropItem(item.ID)
+
         return False
 
     def move(dir):
-            global roomList, currentRoom, currentRoomID, movedThisTurn
-            if(currentRoom.destinations[dir] is not None):
-                currentRoomID = currentRoom.destinations[dir]
-                currentRoom = roomList[currentRoomID]
-                display(f'You went {str(dir)}. ')
-                movedThisTurn = True
-            else:
-                display(
-                    f'You tried to go {str(dir)}. {settings.errorMsg + currentRoom.msgOnStay}')
-                movedThisTurn = False
+        global roomList, currentRoom, currentRoomID, movedThisTurn
+        if(currentRoom.destinations[dir] is not None):
+            currentRoomID = currentRoom.destinations[dir]
+            currentRoom = roomList[currentRoomID]
+            display(f'You went {str(dir)}. ')
+            movedThisTurn = True
+        else:
+            display(
+                f'You tried to go {str(dir)}. {settings.errorMsg + currentRoom.msgOnStay}')
+            movedThisTurn = False
 
-            for inputList in settings.inputModes:
-                if dir in inputList:
-                    dir = inputList[0]
-                    break
+        for inputList in settings.inputModes:
+            if dir in inputList:
+                dir = inputList[0]
+                break
 
     def movementCommandCheck(dir):
         global roomList, currentRoom, currentRoomID, movedThisTurn
@@ -104,6 +124,8 @@ def processCommand(c):
         except KeyError:
             # if the player inputs some shit like asjbdahs for the direction
             display(settings.invalidCmdMsg)
+
+    # ------- MAIN HIERARCHY ------- #
 
     if not itemCommandCheck(c):
         if not gameCommandCheck(c):

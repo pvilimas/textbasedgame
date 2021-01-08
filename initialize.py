@@ -12,6 +12,7 @@ def initializeManual():
     roomList = [Room(name, i) for i, name in enumerate(settings.possibleRoomNames)]
     for r in roomList:
         print(f'{r:short}')
+    itemList = [Item(name, i, ('use',)) for i, name in enumerate(settings.possibleItemNames)] #use is the default keyword
 
     linkRooms(0, 1, 'South')
     linkRooms(0, 2, 'East')
@@ -27,7 +28,7 @@ def initializeManual():
 
     addItemToRoom(Item('rope', 'use'), 0)
 
-    return roomList
+    return roomList, itemList
 
 
 def linkRooms(a, b, dir):  # dir = direction from a to b
