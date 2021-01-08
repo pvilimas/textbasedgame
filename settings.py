@@ -1,6 +1,4 @@
 roomNotFoundMsg = "Room not found. "  # currently unused
-# displayed when a player tries to move west but there is no room west of here
-cannotMoveMsg = "Cannot move that direction. "
 # displayed when a player tries to move north when there's no room that way
 invalidDirMsg = "Not a valid direction. "
 # displayed when a player tries to move sdmcnsbnd or use the 23846sajbd

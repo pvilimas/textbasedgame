@@ -11,7 +11,6 @@ class Room:
 
     # error messages, can be customized in initializeManual
     roomNotFoundMsg = settings.roomNotFoundMsg
-    cannotMoveMsg = settings.cannotMoveMsg
     invalidDirMsg = settings.invalidDirMsg
 
     def __init__(self, name, ID):
