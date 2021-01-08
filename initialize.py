@@ -13,19 +13,19 @@ def initializeManual():
     for r in roomList:
         print(f'{r:short}')
 
-    linkRooms(0, 1, "South")
-    linkRooms(0, 2, "East")
-    linkRooms(0, 8, "West")
-    linkRooms(8, 5, "South")
-    linkRooms(1, 7, "East")
-    linkRooms(7, 4, "East")
-    linkRooms(2, 6, "North")
-    linkRooms(2, 3, "East")
-    linkRooms(3, 4, "South")
-    linkRooms(5, 9, "South")
-    linkRooms(1, 9, "Southwest")
+    linkRooms(0, 1, 'South')
+    linkRooms(0, 2, 'East')
+    linkRooms(0, 8, 'West')
+    linkRooms(8, 5, 'South')
+    linkRooms(1, 7, 'East')
+    linkRooms(7, 4, 'East')
+    linkRooms(2, 6, 'North')
+    linkRooms(2, 3, 'East')
+    linkRooms(3, 4, 'South')
+    linkRooms(5, 9, 'South')
+    linkRooms(1, 9, 'Southwest')
 
-    addItemToRoom(Item("rope", "use"), 0)
+    addItemToRoom(Item('rope', 'use'), 0)
 
     return roomList
 
@@ -37,22 +37,22 @@ def linkRooms(a, b, dir):  # dir = direction from a to b
     a, b = roomList[a], roomList[b]
     # print(type(a))
     # set the inverse first
-    if dir == "North":
-        b.destinations["South"] = a.ID
-    elif dir == "South":
-        b.destinations["North"] = a.ID
-    elif dir == "East":
-        b.destinations["West"] = a.ID
-    elif dir == "West":
-        b.destinations["East"] = a.ID
-    elif dir == "Northeast":
-        b.destinations["Southwest"] = a.ID
-    elif dir == "Southeast":
-        b.destinations["Northwest"] = a.ID
-    elif dir == "Northwest":
-        b.destinations["Southeast"] = a.ID
-    elif dir == "Southwest":
-        b.destinations["Northeast"] = a.ID
+    if dir == 'North':
+        b.destinations['South'] = a.ID
+    elif dir == 'South':
+        b.destinations['North'] = a.ID
+    elif dir == 'East':
+        b.destinations['West'] = a.ID
+    elif dir == 'West':
+        b.destinations['East'] = a.ID
+    elif dir == 'Northeast':
+        b.destinations['Southwest'] = a.ID
+    elif dir == 'Southeast':
+        b.destinations['Northwest'] = a.ID
+    elif dir == 'Northwest':
+        b.destinations['Southeast'] = a.ID
+    elif dir == 'Southwest':
+        b.destinations['Northeast'] = a.ID
     else:
         pass  # not sure what to put here
     # set the dir from A to B, avoid invalid key error

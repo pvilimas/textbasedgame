@@ -2,7 +2,7 @@ from item import Item
 from room import Room
 from initialize import initializeManual
 import settings
-roomList = initializeManual()
+roomList, itemList = initializeManual()
 
 inventory = []  # implement later
 
@@ -43,6 +43,8 @@ movedThisTurn = True
 def display(text):
     print(f'\n> {text}\n')
 
+def pickUpItem(itemID):
+    pass
 
 def processCommand(c):
 

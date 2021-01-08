@@ -18,6 +18,8 @@ item inventory/player class?
 
 make plot and story and hardcode all rooms (last thing)
 
+saving game, title screen, other stuff
+
 done:
 add text overrides for rooms ("you used the key" "you turned on the light" "you walked down the stairs" "you turned left and went into the cellar)
 delete grid and randomization
