@@ -2,7 +2,6 @@ not done:
 
 implement items maybe (start by randomizing)
     addItem, removeItem methods
-    inventory checking as a game command
     looking around in a room as a game command while you're at it
 add item types (keys, doors, etc)
 add text overrides for items
@@ -27,3 +26,4 @@ process input function ('n' = 'North' = 'north' etc)
 grid bug fixes
 fix short room format for NE NW SE SW
 inventory added
+    inventory checking as a game command

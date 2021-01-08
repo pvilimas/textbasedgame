@@ -50,10 +50,15 @@ def display(text):
 
 
 def pickUpItem(itemID):
-    pass
+    item = itemList[itemID]
+    if not item.canBePickedUp: raise settings.CannotTakeItemException
+    else: inventory.append(itemID)
+    make sure to remove it from the room list that it's currently in :)
 
 def dropItem(itemID):
-    pass
+    item = itemList[itemID]
+    if item not in inventory: raise settings.ItemNotInInventoryException #maybe implicitly raise a value error here instead?
+    else: inventory.remove(itemID)
 
 def processCommand(c):
 
@@ -78,10 +83,16 @@ def processCommand(c):
             return True
         else: #add other commands before this one (this should be the last in the chain)
             for item in currentRoom.itemList:
-                for k, v in item.keywords.items():
-                    if c == 'pickup': pickUpItem(item.ID)
-                    elif c == 'use': item.use() #does nothing yet
-                    elif c == 'drop': dropItem(item.ID)
+                #command should look like keyword + space + itemName: "use rope"
+                for kw in item.keywords:
+                    if c == f'{kw} {item.name}':
+                        try:
+                            if kw == 'use': item.use()
+                            elif kw == 'pick up': pickUpItem(item.ID)
+                            elif kw == 'drop': dropItem(item.ID)
+                            else: return False #is this ok?
+                        except: #might have to be more specific here later with diff error types
+                            display(settings.invalidItemMsg)
 
         return False
 
@@ -150,9 +161,9 @@ while not crashed:
     currentRoom = roomList[currentRoomID]
     # showItems(currentRoom)
     # showDestinations(currentRoom)
-    showInventory()
-    processCommand(input(f'> {currentRoom.msgOnEnter}\n> ')) if movedThisTurn else processCommand(
-        input(f'> {currentRoom.msgOnStay}\n> '))
+    # showInventory()
+    processCommand(input(f'> {currentRoom.msgOnEnter}\n\n> ')) if movedThisTurn else processCommand(
+        input(f'> {currentRoom.msgOnStay}\n\n> '))
 
 
 # ------- MAIN GAME LOOP ------- #

@@ -3,6 +3,8 @@ roomNotFoundMsg = 'Room not found. '  # currently unused
 invalidDirMsg = 'You can\'t go that way! '
 # displayed when a player tries to move sdmcnsbnd or use the 23846sajbd
 invalidCmdMsg = 'Command not recognized! '
+# displayed when a player tries to interact with an item that doesn't exist
+invalidItemMsg = 'That item doesn\'t exist!'
 
 # USE TUPLES NOT LISTS HERE (saves memory)
 

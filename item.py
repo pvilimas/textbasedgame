@@ -6,7 +6,7 @@ class Item:
         self.ID = ID
         self.keywords = {
             'use': kwUse,
-            'pickup': ['pick up'],
+            'pick up': ['pick up'],
             'drop': ['drop']
         }
         self.msgOnUse = f'You used the {self.name}.'
