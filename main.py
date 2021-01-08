@@ -43,7 +43,7 @@ def lookAround():  # same here
     itemString = 'No items can be found here. ' if len(
         currentRoom.itemList) == 0 else f"The items that can be found here are: {' and '.join(repr(i) for i in currentRoom.itemList)}. "
     display(f'{currentRoom.msgOnLook}{itemString}')
-
+a
 
 currentRoomID = 0
 currentRoom = roomList[currentRoomID]
