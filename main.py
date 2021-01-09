@@ -100,13 +100,14 @@ def processCommand(c):
             return True
         # add other commands before this one (this should be the last in the chain)
         else:
-            print(len(c))
+            print(len(c)) this whole part needs to be fixed (look at checklist)
             for item in currentRoom.itemList:
                 # command should look like keyword + space + itemName: "use rope"
                 for keywordAliasList in item.keywords.values():
                     for kw in keywordAliasList:
-                        print(f'{kw} {item.name}')
-                        if c == f'{kw} {item.name}':
+                        commandOnly = c.replace(item.name, '').strip()
+                        print(f'{kw} {item.name} / "{commandOnly}"')
+                        if commandOnly == f'{kw} {item.name}':
                             try:
                                 if kw == 'use':
                                     item.use()
@@ -188,7 +189,7 @@ while not crashed:
     # showItems(currentRoom)
     # showDestinations(currentRoom)
     # showInventory()
-    if lookedAroundThisTurn: nextInput = input('\n\n> ')
+    if lookedAroundThisTurn: nextInput = input('> ')
     elif movedThisTurn: nextInput = input(f'> {currentRoom.msgOnEnter}\n\n> ')
     else: nextInput = input(f'> {currentRoom.msgOnStay}\n\n> ')
     processCommand(nextInput.strip())

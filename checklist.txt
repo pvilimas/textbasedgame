@@ -2,13 +2,14 @@ not done:
 
 implement items maybe (start by randomizing)
     addItem, removeItem methods
+        "what do you want to take?"
     looking around in a room as a game command while you're at it
     look at [item]
-add item types (keys, doors, etc)
 add text overrides for items
 at some point, setup pygame shit and change display method to GUI
     text scrolling would be needed, maybe a custom textbox class
     extra parameter into display function saying whether this is game or user text and the color is dependent on that maybe
+    customInput which is similar to display (returns the input but adds a > at the start)
 objectives - point counter for each item that is collected/used?
 
 optional:
@@ -34,4 +35,5 @@ add more directions to the dest array: NE NW SE SW - last priority before hardco
 
 not necessary for now:
     maybe hallways as special types of rooms (with a split path)
-        what will be done with vertical rooms (climbing ladders/stairs to go up and down etc) 
+        what will be done with vertical rooms (climbing ladders/stairs to go up and down etc)
+    add item types (keys, doors, etc)
