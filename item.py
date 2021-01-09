@@ -10,7 +10,7 @@ class Item:
             'take': ('take', 'pick up'),
             'drop': ('drop',)
         }
-        self.msgOnUse = f'You used the {self.name}.'
+        self.msgOnUse = f'You used the {self.name}. '
         self.canBePickedUp = True #must be set to false manually in initializeManual
 
     def __format__(self, format):
@@ -21,4 +21,4 @@ class Item:
         return self.__format__(self)
 
     def use(self):
-        pass
+        return self.msgOnUse

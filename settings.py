@@ -5,6 +5,8 @@ invalidDirMsg = 'You can\'t go that way! '
 invalidCmdMsg = 'Command not recognized! '
 # displayed when a player tries to interact with an item that doesn't exist
 invalidItemMsg = 'That item doesn\'t exist! '
+# displayed when a player says "take" or "use" with no object in the command
+ambiguousCmdMsg = 'What do you want to ' # 'take?'
 
 # USE TUPLES NOT LISTS HERE (saves memory)
 

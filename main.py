@@ -79,13 +79,12 @@ def dropItem(itemID):
 
 def processCommand(c):
     global lookedAroundThisTurn
-    lookedAroundThisTurn = False
+    lookedAroundThisTurn = False PUT THE ITEM SHIT HERE :))))))
     def itemCommandCheck(c):
         for item in currentRoom.itemList:
             try:
                 if c == f'{item.kwUse} {item.name}':
-                    item.use()
-                    display(item.msgOnUse)
+                    display(item.use())
                     return True
             except:
                 pass
@@ -100,25 +99,33 @@ def processCommand(c):
             return True
         # add other commands before this one (this should be the last in the chain)
         else:
-            print(len(c)) this whole part needs to be fixed (look at checklist)
+            print(len(c))
             for item in currentRoom.itemList:
                 # command should look like keyword + space + itemName: "use rope"
-                for keywordAliasList in item.keywords.values():
-                    for kw in keywordAliasList:
-                        commandOnly = c.replace(item.name, '').strip()
-                        print(f'{kw} {item.name} / "{commandOnly}"')
-                        if commandOnly == f'{kw} {item.name}':
+                for keywordAliasList in item.keywords.values(): #keywordAliasList = ('take', 'pick up')
+                    for kw in keywordAliasList: #kw = 'take'
+                        commandOnly = c.strip() #commandOnly goes from 'take rope   ' to 'take rope' 
+                        print(f'{kw} {item.name.strip()} / "{commandOnly}"') # 'take' 'rope' / 'take rope'
+                        print(commandOnly == f"{kw} {item.name}")
+                        if commandOnly == kw: #if the user only said 'take' or 'use'
+                            display(f'{settings.ambiguousCmdMsg} {kw}?')
+                        elif commandOnly == f'{kw} {item.name}': #'take rope', 'turn on light', etc
                             try:
                                 if kw == 'use':
                                     item.use()
+                                    return True
                                 elif kw == 'pick up':
                                     pickUpItem(item.ID)
+                                    return True
                                 elif kw == 'drop':
                                     dropItem(item.ID)
+                                    return True
                                 else:
-                                    return False  # is this ok?
+                                    return False
                             except:  # might have to be more specific here later with diff error types
                                 display(settings.invalidItemMsg)
+                        else:
+                            pass #what do i do here?
 
         return False
 
