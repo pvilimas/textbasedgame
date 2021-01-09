@@ -39,16 +39,18 @@ def showInventory():  # this one's gotta actually be detailed and look good bc i
 
 
 def lookAround():  # same here
-    global currentRoom
+    global currentRoom, lookedAroundThisTurn
+    lookedAroundThisTurn = True
     itemString = 'No items can be found here. ' if len(
         currentRoom.itemList) == 0 else f"The items that can be found here are: {' and '.join(repr(i) for i in currentRoom.itemList)}. "
     display(f'{currentRoom.msgOnLook}{itemString}')
-a
+
 
 currentRoomID = 0
 currentRoom = roomList[currentRoomID]
 
 movedThisTurn = True
+lookedAroundThisTurn = False
 
 # later on, change this to GUI/pygame based
 
@@ -76,7 +78,8 @@ def dropItem(itemID):
 
 
 def processCommand(c):
-
+    global lookedAroundThisTurn
+    lookedAroundThisTurn = False
     def itemCommandCheck(c):
         for item in currentRoom.itemList:
             try:
@@ -89,7 +92,6 @@ def processCommand(c):
         return False
 
     def gameCommandCheck(c):
-        # pass the full command to this: like "use rope"
         if c in settings.lookAroundCmds:
             lookAround()
             return True
@@ -98,21 +100,24 @@ def processCommand(c):
             return True
         # add other commands before this one (this should be the last in the chain)
         else:
+            print(len(c))
             for item in currentRoom.itemList:
                 # command should look like keyword + space + itemName: "use rope"
-                for kw in item.keywords:
-                    if c == f'{kw} {item.name}':
-                        try:
-                            if kw == 'use':
-                                item.use()
-                            elif kw == 'pick up':
-                                pickUpItem(item.ID)
-                            elif kw == 'drop':
-                                dropItem(item.ID)
-                            else:
-                                return False  # is this ok?
-                        except:  # might have to be more specific here later with diff error types
-                            display(settings.invalidItemMsg)
+                for keywordAliasList in item.keywords.values():
+                    for kw in keywordAliasList:
+                        print(f'{kw} {item.name}')
+                        if c == f'{kw} {item.name}':
+                            try:
+                                if kw == 'use':
+                                    item.use()
+                                elif kw == 'pick up':
+                                    pickUpItem(item.ID)
+                                elif kw == 'drop':
+                                    dropItem(item.ID)
+                                else:
+                                    return False  # is this ok?
+                            except:  # might have to be more specific here later with diff error types
+                                display(settings.invalidItemMsg)
 
         return False
 
@@ -159,6 +164,7 @@ def processCommand(c):
 
     if not itemCommandCheck(c):
         if not gameCommandCheck(c):
+            lookedAroundThisTurn = False
             if not movementCommandCheck(c):
                 pass
             else:
@@ -182,8 +188,10 @@ while not crashed:
     # showItems(currentRoom)
     # showDestinations(currentRoom)
     # showInventory()
-    processCommand(input(f'> {currentRoom.msgOnEnter}\n\n> ')) if movedThisTurn else processCommand(
-        input(f'> {currentRoom.msgOnStay}\n\n> '))
+    if lookedAroundThisTurn: nextInput = input('\n\n> ')
+    elif movedThisTurn: nextInput = input(f'> {currentRoom.msgOnEnter}\n\n> ')
+    else: nextInput = input(f'> {currentRoom.msgOnStay}\n\n> ')
+    processCommand(nextInput.strip())
 
 
 # ------- MAIN GAME LOOP ------- #

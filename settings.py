@@ -11,7 +11,7 @@ invalidItemMsg = 'That item doesn\'t exist! '
 possibleRoomNames = ('Library', 'Kitchen', 'Terrace', 'Fountain',
                      'Engine Room', 'Garden', 'Bedroom', 'AP Office', 'YSR Headquarters', 'Hoe Hackett Shack')
 possibleItemNames = ('rope', 'computer', 'plunger', 'daddy kehne head polish', 'apple')
-pluralItemNames = ('rope', 'daddy kehne head polish')
+pluralItemNames = ('rope', 'daddy kehne head polish') #MAKE SURE THIS IS UPDATED
 inputModes = (('North', 'north', 'N', 'n'), ('South', 'south', 'S', 's'), ('East', 'east', 'E', 'e'), ('West', 'west', 'W', 'w'),
               ('Northeast', 'northeast', 'NE', 'ne'), ('Southeast', 'southeast', 'SE', 'se'), ('Northwest', 'northwest', 'NW', 'nw'), ('Southwest', 'southwest', 'SW', 'sw'))
 

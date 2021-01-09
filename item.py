@@ -2,13 +2,13 @@ import settings
 class Item:
 
 
-    def __init__(self, name, ID, kwUse): #kwUse MUST BE A TUPLE OR A LIST
+    def __init__(self, name, ID, kwUse): #kwUse MUST BE A TUPLE (list not recommended)
         self.name = name
         self.ID = ID
         self.keywords = {
             'use': kwUse,
-            'pick up': ['pick up'],
-            'drop': ['drop']
+            'take': ('take', 'pick up'),
+            'drop': ('drop',)
         }
         self.msgOnUse = f'You used the {self.name}.'
         self.canBePickedUp = True #must be set to false manually in initializeManual

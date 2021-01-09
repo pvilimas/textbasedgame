@@ -3,21 +3,24 @@ not done:
 implement items maybe (start by randomizing)
     addItem, removeItem methods
     looking around in a room as a game command while you're at it
+    look at [item]
 add item types (keys, doors, etc)
 add text overrides for items
 at some point, setup pygame shit and change display method to GUI
     text scrolling would be needed, maybe a custom textbox class
     extra parameter into display function saying whether this is game or user text and the color is dependent on that maybe
-maybe hallways as special types of rooms (with a split path)
-add more directions to the dest array: NE NW SE SW - last priority before hardcoding
-    what will be done with vertical rooms (climbing ladders/stairs to go up and down etc) 
 objectives - point counter for each item that is collected/used?
+
+optional:
 explored rooms "to the north is the cellar" if youve explored it, otherwise "to the north is a dark hallway"
 item inventory/player class?
 
 make plot and story and hardcode all rooms (last thing)
 
 saving game, title screen, other stuff
+
+bugs:
+adding a space at the end of a command like "look " makes it unrecognized, use strip() or whatever
 
 done:
 add text overrides for rooms ("you used the key" "you turned on the light" "you walked down the stairs" "you turned left and went into the cellar)
@@ -27,3 +30,8 @@ grid bug fixes
 fix short room format for NE NW SE SW
 inventory added
     inventory checking as a game command
+add more directions to the dest array: NE NW SE SW - last priority before hardcoding
+
+not necessary for now:
+    maybe hallways as special types of rooms (with a split path)
+        what will be done with vertical rooms (climbing ladders/stairs to go up and down etc) 
