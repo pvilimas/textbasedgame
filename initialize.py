@@ -6,13 +6,17 @@ from copy import deepcopy
 from math import sqrt, ceil, floor
 
 roomList = []
+
+
 def initializeManual():
     global roomList
     # assuming we want to use all room names in that list
-    roomList = [Room(name, i) for i, name in enumerate(settings.possibleRoomNames)]
+    roomList = [Room(name, i)
+                for i, name in enumerate(settings.possibleRoomNames)]
     for r in roomList:
         print(f'{r:short}')
-    itemList = [Item(name, i, ('use',)) for i, name in enumerate(settings.possibleItemNames)] #use is the default keyword
+    itemList = [Item(name, i, ('use',)) for i, name in enumerate(
+        settings.possibleItemNames)]  # use is the default keyword
 
     linkRooms(0, 1, 'South')
     linkRooms(0, 2, 'East')
@@ -72,6 +76,7 @@ def getRoom(input, rl):  # rl = roomlist
                 return r
         else:
             raise Exception
+
 
 def addItemToRoom(i, r):
     if type(r) is int:

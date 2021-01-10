@@ -1,8 +1,9 @@
 import settings
+
+
 class Item:
 
-
-    def __init__(self, name, ID, kwUse): #kwUse MUST BE A TUPLE (list not recommended)
+    def __init__(self, name, ID, kwUse):  # kwUse MUST BE A TUPLE (list not recommended)
         self.name = name
         self.ID = ID
         self.keywords = {
@@ -11,14 +12,16 @@ class Item:
             'drop': ('drop',)
         }
         self.msgOnUse = f'You used the {self.name}. '
-        self.canBePickedUp = True #must be set to false manually in initializeManual
+        self.canBePickedUp = True  # must be set to false manually in initializeManual
 
     def __format__(self, format):
-        if self.name in settings.pluralItemNames: return f'some {self.name}'
-        else: return f'an {self.name}' if self.name[0] in 'aeiou' else f'a {self.name}'
+        if self.name in settings.pluralItemNames:
+            return f'some {self.name}'
+        else:
+            return f'an {self.name}' if self.name[0] in 'aeiou' else f'a {self.name}'
 
     def __repr__(self):
         return self.__format__(self)
 
-    def use(self):
-        return self.msgOnUse
+    def use(self):  # must be called like: display(item.use())
+        return self.msgOnUse  # do not remove this

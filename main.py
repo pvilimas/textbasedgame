@@ -42,7 +42,7 @@ def lookAround():  # same here
     global currentRoom, lookedAroundThisTurn
     lookedAroundThisTurn = True
     itemString = 'No items can be found here. ' if len(
-        currentRoom.itemList) == 0 else f"The items that can be found here are: {' and '.join(repr(i) for i in currentRoom.itemList)}. "
+        currentRoom.itemList) == 0 else f"The items that can be found here are: {' and '.join(repr(i) for i in currentRoom.itemList)}. "  # just know that this works :)
     display(f'{currentRoom.msgOnLook}{itemString}')
 
 
@@ -87,17 +87,19 @@ def processCommand(c):
         print(len(c))
         for item in currentRoom.itemList:
             # command should look like keyword + space + itemName: "use rope"
-            for keywordAliasList in item.keywords.values(): #keywordAliasList = ('take', 'pick up')
-                for kw in keywordAliasList: #kw = 'take'
-                    commandOnly = c.strip() #commandOnly goes from 'take rope   ' to 'take rope' 
-                    print(f'{kw} {item.name.strip()} / "{commandOnly}"') # 'take' 'rope' / 'take rope'
+            for keywordAliasList in item.keywords.values():  # keywordAliasList = ('take', 'pick up')
+                for kw in keywordAliasList:  # kw = 'take'
+                    commandOnly = c.strip()  # commandOnly goes from 'take rope   ' to 'take rope'
+                    # 'take' 'rope' / 'take rope'
+                    print(f'{kw} {item.name.strip()} / "{commandOnly}"')
                     print(commandOnly == f"{kw} {item.name}")
-                    if commandOnly == kw: #if the user only said 'take' or 'use'
+                    if commandOnly == kw:  # if the user only said 'take' or 'use'
                         display(f'{settings.ambiguousCmdMsg} {kw}?')
-                    elif commandOnly == f'{kw} {item.name}': #'take rope', 'turn on light', etc
+                    # 'take rope', 'turn on light', etc
+                    elif commandOnly == f'{kw} {item.name}':
                         try:
                             if kw == 'use':
-                                item.use()
+                                display(item.use())
                                 return True
                             elif kw == 'pick up':
                                 pickUpItem(item.ID)
@@ -110,8 +112,9 @@ def processCommand(c):
                         except:  # might have to be more specific here later with diff error types
                             display(settings.invalidItemMsg)
                     else:
-                        pass #what do i do here?
-        else: return False
+                        pass  # what do i do here?
+        else:
+            return False
 
     # checks to see if user tried to use a game command: looking around, checking inventory
     def gameCommandCheck(c):
@@ -193,9 +196,12 @@ while not crashed:
     # showItems(currentRoom)
     # showDestinations(currentRoom)
     # showInventory()
-    if lookedAroundThisTurn: nextInput = input('> ')
-    elif movedThisTurn: nextInput = input(f'> {currentRoom.msgOnEnter}\n\n> ')
-    else: nextInput = input(f'> {currentRoom.msgOnStay}\n\n> ')
+    if lookedAroundThisTurn:
+        nextInput = input('> ')
+    elif movedThisTurn:
+        nextInput = input(f'> {currentRoom.msgOnEnter}\n\n> ')
+    else:
+        nextInput = input(f'> {currentRoom.msgOnStay}\n\n> ')
     processCommand(nextInput.strip())
 
 
