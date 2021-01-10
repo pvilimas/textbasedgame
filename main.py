@@ -79,17 +79,41 @@ def dropItem(itemID):
 
 def processCommand(c):
     global lookedAroundThisTurn
-    lookedAroundThisTurn = False PUT THE ITEM SHIT HERE :))))))
-    def itemCommandCheck(c):
-        for item in currentRoom.itemList:
-            try:
-                if c == f'{item.kwUse} {item.name}':
-                    display(item.use())
-                    return True
-            except:
-                pass
-        return False
+    lookedAroundThisTurn = False
 
+    # checks to see if user tried to use, drop, or take an item
+    def itemCommandCheck(c):
+        global itemList
+        print(len(c))
+        for item in currentRoom.itemList:
+            # command should look like keyword + space + itemName: "use rope"
+            for keywordAliasList in item.keywords.values(): #keywordAliasList = ('take', 'pick up')
+                for kw in keywordAliasList: #kw = 'take'
+                    commandOnly = c.strip() #commandOnly goes from 'take rope   ' to 'take rope' 
+                    print(f'{kw} {item.name.strip()} / "{commandOnly}"') # 'take' 'rope' / 'take rope'
+                    print(commandOnly == f"{kw} {item.name}")
+                    if commandOnly == kw: #if the user only said 'take' or 'use'
+                        display(f'{settings.ambiguousCmdMsg} {kw}?')
+                    elif commandOnly == f'{kw} {item.name}': #'take rope', 'turn on light', etc
+                        try:
+                            if kw == 'use':
+                                item.use()
+                                return True
+                            elif kw == 'pick up':
+                                pickUpItem(item.ID)
+                                return True
+                            elif kw == 'drop':
+                                dropItem(item.ID)
+                                return True
+                            else:
+                                return False
+                        except:  # might have to be more specific here later with diff error types
+                            display(settings.invalidItemMsg)
+                    else:
+                        pass #what do i do here?
+        else: return False
+
+    # checks to see if user tried to use a game command: looking around, checking inventory
     def gameCommandCheck(c):
         if c in settings.lookAroundCmds:
             lookAround()
@@ -97,38 +121,10 @@ def processCommand(c):
         elif c in settings.checkInvCmds:
             showInventory()
             return True
-        # add other commands before this one (this should be the last in the chain)
         else:
-            print(len(c))
-            for item in currentRoom.itemList:
-                # command should look like keyword + space + itemName: "use rope"
-                for keywordAliasList in item.keywords.values(): #keywordAliasList = ('take', 'pick up')
-                    for kw in keywordAliasList: #kw = 'take'
-                        commandOnly = c.strip() #commandOnly goes from 'take rope   ' to 'take rope' 
-                        print(f'{kw} {item.name.strip()} / "{commandOnly}"') # 'take' 'rope' / 'take rope'
-                        print(commandOnly == f"{kw} {item.name}")
-                        if commandOnly == kw: #if the user only said 'take' or 'use'
-                            display(f'{settings.ambiguousCmdMsg} {kw}?')
-                        elif commandOnly == f'{kw} {item.name}': #'take rope', 'turn on light', etc
-                            try:
-                                if kw == 'use':
-                                    item.use()
-                                    return True
-                                elif kw == 'pick up':
-                                    pickUpItem(item.ID)
-                                    return True
-                                elif kw == 'drop':
-                                    dropItem(item.ID)
-                                    return True
-                                else:
-                                    return False
-                            except:  # might have to be more specific here later with diff error types
-                                display(settings.invalidItemMsg)
-                        else:
-                            pass #what do i do here?
+            return False
 
-        return False
-
+    # moves into the target room assuming dir is valid and all that. helper method for movementCommandCheck
     def move(dir):
         global roomList, currentRoom, currentRoomID, movedThisTurn
 
@@ -142,6 +138,7 @@ def processCommand(c):
                 f'You tried to go {str(dir)}. {settings.errorMsg + currentRoom.msgOnStay}')
             movedThisTurn = False
 
+    # checks to see if user tried to move
     def movementCommandCheck(dir):
         global roomList, currentRoom, currentRoomID, movedThisTurn
         movedThisTurn = False
