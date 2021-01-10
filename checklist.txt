@@ -11,6 +11,7 @@ at some point, setup pygame shit and change display method to GUI
     extra parameter into display function saying whether this is game or user text and the color is dependent on that maybe
     customInput which is similar to display (returns the input but adds a > at the start)
 objectives - point counter for each item that is collected/used?
+verbose?
 
 optional:
 explored rooms "to the north is the cellar" if youve explored it, otherwise "to the north is a dark hallway"

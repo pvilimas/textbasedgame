@@ -51,6 +51,7 @@ currentRoom = roomList[currentRoomID]
 
 movedThisTurn = True
 lookedAroundThisTurn = False
+itemMsgGivenThisTurn = False
 
 # later on, change this to GUI/pygame based
 
@@ -76,28 +77,32 @@ def dropItem(itemID):
     else:
         inventory.remove(itemID)
 
+# useItem does not exist, maybe it should but for now it's in the item class: item.use()
+# and it returns the string to display
+
 
 def processCommand(c):
-    global lookedAroundThisTurn
+    global lookedAroundThisTurn, itemMsgGivenThisTurn
     lookedAroundThisTurn = False
 
     # checks to see if user tried to use, drop, or take an item
     def itemCommandCheck(c):
-        global itemList
-        print(len(c))
+        global itemList, itemMsgGivenThisTurn
         for item in currentRoom.itemList:
             # command should look like keyword + space + itemName: "use rope"
             for keywordAliasList in item.keywords.values():  # keywordAliasList = ('take', 'pick up')
                 for kw in keywordAliasList:  # kw = 'take'
                     commandOnly = c.strip()  # commandOnly goes from 'take rope   ' to 'take rope'
                     # 'take' 'rope' / 'take rope'
-                    print(f'{kw} {item.name.strip()} / "{commandOnly}"')
-                    print(commandOnly == f"{kw} {item.name}")
+                    #print(f'{kw} {item.name.strip()} / "{commandOnly}"')
+                    #print(commandOnly == f"{kw} {item.name}")
                     if commandOnly == kw:  # if the user only said 'take' or 'use'
-                        display(f'{settings.ambiguousCmdMsg} {kw}?')
+                        if not itemMsgGivenThisTurn: display(f'{settings.ambiguousCmdMsg + kw}?')
+                        itemErrorMsgGiven = True
                     # 'take rope', 'turn on light', etc
                     elif commandOnly == f'{kw} {item.name}':
                         try:
+                            itemMsgGivenThisTurn = True
                             if kw == 'use':
                                 display(item.use())
                                 return True
@@ -108,9 +113,11 @@ def processCommand(c):
                                 dropItem(item.ID)
                                 return True
                             else:
+                                itemMsgGivenThisTurn = False
                                 return False
                         except:  # might have to be more specific here later with diff error types
                             display(settings.invalidItemMsg)
+                            itemMsgGivenThisTurn = True
                     else:
                         pass  # what do i do here?
         else:
@@ -143,7 +150,7 @@ def processCommand(c):
 
     # checks to see if user tried to move
     def movementCommandCheck(dir):
-        global roomList, currentRoom, currentRoomID, movedThisTurn
+        global roomList, currentRoom, currentRoomID, movedThisTurn, itemMsgGivenThisTurn
         movedThisTurn = False
 
         for inputList in settings.inputModes:
@@ -196,7 +203,7 @@ while not crashed:
     # showItems(currentRoom)
     # showDestinations(currentRoom)
     # showInventory()
-    if lookedAroundThisTurn:
+    if lookedAroundThisTurn or itemMsgGivenThisTurn:
         nextInput = input('> ')
     elif movedThisTurn:
         nextInput = input(f'> {currentRoom.msgOnEnter}\n\n> ')
