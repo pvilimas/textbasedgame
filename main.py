@@ -35,7 +35,7 @@ def showItems(room):
 def showInventory():  # this one's gotta actually be detailed and look good bc it will be in the game
     global inventory
     display(
-        f"Your inventory contains {' and '.join(repr(i) for i in inventory)}")
+        f"Your inventory contains {' and '.join(repr(i) for i in inventory)}.")
 
 
 def lookAround():  # same here
@@ -97,7 +97,9 @@ def processCommand(c):
                     #print(f'{kw} {item.name.strip()} / "{commandOnly}"')
                     #print(commandOnly == f"{kw} {item.name}")
                     if commandOnly == kw:  # if the user only said 'take' or 'use'
-                        if not itemMsgGivenThisTurn: display(f'{settings.ambiguousCmdMsg + kw}?')
+                        if not itemMsgGivenThisTurn:
+                            display(f'{settings.ambiguousCmdMsg + kw}?')
+                            itemMsgGivenThisTurn = True
                         itemErrorMsgGiven = True
                     # 'take rope', 'turn on light', etc
                     elif commandOnly == f'{kw} {item.name}':
@@ -173,10 +175,11 @@ def processCommand(c):
                 return False
         except KeyError:
             # if the player inputs some shit like asjbdahs for the direction
-            display(settings.invalidCmdMsg)
+            if not itemMsgGivenThisTurn:
+                display(settings.invalidCmdMsg)
 
     # ------- MAIN HIERARCHY ------- #
-
+    itemMsgGivenThisTurn = False
     if not itemCommandCheck(c):
         if not gameCommandCheck(c):
             lookedAroundThisTurn = False

@@ -31,5 +31,5 @@ class Room:
             return '{} [{}] | '.format(self.name.ljust(18, ' '), self.ID)
         elif (format == 'shorter'):
             return f'{self.name}'.ljust(18, ' ')
-        else:
+        else:  # long
             return f"{self.name.ljust(18, ' ')} [{self.ID}]: {' '.join(str(x).ljust(4, ' ') for x in self.destinations.values())} | "
