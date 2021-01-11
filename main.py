@@ -4,13 +4,21 @@ from initialize import initializeManual
 import settings
 roomList, itemList = initializeManual()
 
-inventory = itemList
+inventory = []
 
 progression = {  # do this much later
-    'completed': [],
-    'remaining': [],
+    'completed': [],  # starts empty of course
+    'remaining': [],  # once this is done, this list should be received as a return value from initializeManual
     'next': []  # set this to remaining[0] every turn
 }
+
+def addToInventory(item):
+    global inventory
+    inventory.append(item)
+
+def removeFromInventory(item):
+    global inventory
+    inventory.remove(item)
 
 # methods for debugging only
 
@@ -35,7 +43,7 @@ def showItems(room):
 def showInventory():  # this one's gotta actually be detailed and look good bc it will be in the game
     global inventory
     display(
-        f"Your inventory contains {' and '.join(repr(i) for i in inventory)}.")
+        f"Your inventory contains {' and '.join(repr(i) for i in inventory)}.") if len(inventory) > 0 else display('Your inventory is empty.')
 
 
 def lookAround():  # same here
@@ -60,13 +68,15 @@ def display(text):
     print(f'\n> {text}\n')
 
 
-def pickUpItem(itemID):
+def takeItem(itemID):
     global currentRoom
     item = itemList[itemID]
     if not item.canBePickedUp or item not in currentRoom.itemList:
         raise settings.CannotTakeItemException
     else:
-        inventory.append(itemID)
+        currentRoom.itemList.remove(item)
+        inventory.append(item)
+        display(item.msgOnTake)
 
 
 def dropItem(itemID):
@@ -75,7 +85,9 @@ def dropItem(itemID):
         # maybe implicitly raise a value error here instead?
         raise settings.ItemNotInInventoryException
     else:
-        inventory.remove(itemID)
+        currentRoom.itemList.append(item)
+        inventory.remove(item)
+        display(item.msgOnDrop)
 
 # useItem does not exist, maybe it should but for now it's in the item class: item.use()
 # and it returns the string to display
@@ -105,13 +117,13 @@ def processCommand(c):
                     elif commandOnly == f'{kw} {item.name}':
                         try:
                             itemMsgGivenThisTurn = True
-                            if kw == 'use':
+                            if kw in item.keywords['use']:
                                 display(item.use())
                                 return True
-                            elif kw == 'pick up':
-                                pickUpItem(item.ID)
+                            elif kw in item.keywords['take']:
+                                takeItem(item.ID)
                                 return True
-                            elif kw == 'drop':
+                            elif kw in item.keywords['drop']:
                                 dropItem(item.ID)
                                 return True
                             else:

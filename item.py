@@ -12,6 +12,8 @@ class Item:
             'drop': ('drop',)
         }
         self.msgOnUse = f'You used the {self.name}. '
+        self.msgOnTake = f'You took the {self.name}. '
+        self.msgOnDrop = f'You dropped the {self.name}. '
         self.canBePickedUp = True  # must be set to false manually in initializeManual
 
     def __format__(self, format):
