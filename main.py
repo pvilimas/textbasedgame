@@ -60,6 +60,7 @@ currentRoom = roomList[currentRoomID]
 movedThisTurn = True
 lookedAroundThisTurn = False
 itemMsgGivenThisTurn = False
+invMsgGivenThisTurn = False
 
 # later on, change this to GUI/pygame based
 
@@ -80,6 +81,7 @@ def takeItem(itemID):
 
 
 def dropItem(itemID):
+    print('dropping!')
     item = itemList[itemID]
     if item not in inventory:
         # maybe implicitly raise a value error here instead?
@@ -94,23 +96,24 @@ def dropItem(itemID):
 
 
 def processCommand(c):
-    global lookedAroundThisTurn, itemMsgGivenThisTurn
-    lookedAroundThisTurn = False
+    global lookedAroundThisTurn, itemMsgGivenThisTurn, invMsgGivenThisTurn
+    lookedAroundThisTurn, invMsgGivenThisTurn = False, False
 
     # checks to see if user tried to use, drop, or take an item
     def itemCommandCheck(c):
-        global itemList, itemMsgGivenThisTurn
+        global itemList, inventory, itemMsgGivenThisTurn
         for item in currentRoom.itemList:
             # command should look like keyword + space + itemName: "use rope"
             for keywordAliasList in item.keywords.values():  # keywordAliasList = ('take', 'pick up')
                 for kw in keywordAliasList:  # kw = 'take'
+                    kw = kw.strip()
                     commandOnly = c.strip()  # commandOnly goes from 'take rope   ' to 'take rope'
                     # 'take' 'rope' / 'take rope'
                     #print(f'{kw} {item.name.strip()} / "{commandOnly}"')
                     #print(commandOnly == f"{kw} {item.name}")
                     if commandOnly == kw:  # if the user only said 'take' or 'use'
                         if not itemMsgGivenThisTurn:
-                            display(f'{settings.ambiguousCmdMsg + kw}?')
+                            display(f'{settings.ambiguousCmdMsg.replace("CMD_NAME", kw)}')
                             itemMsgGivenThisTurn = True
                         itemErrorMsgGiven = True
                     # 'take rope', 'turn on light', etc
@@ -118,8 +121,12 @@ def processCommand(c):
                         try:
                             itemMsgGivenThisTurn = True
                             if kw in item.keywords['use']:
-                                display(item.use())
-                                return True
+                                if item in inventory:
+                                    display(item.use())
+                                    return True
+                                else:
+                                    display(settings.itemNotInInventoryMsg.replace('ITEM_NAME'), item.name)
+                                    return False
                             elif kw in item.keywords['take']:
                                 takeItem(item.ID)
                                 return True
@@ -129,9 +136,12 @@ def processCommand(c):
                             else:
                                 itemMsgGivenThisTurn = False
                                 return False
-                        except:  # might have to be more specific here later with diff error types
+                        except settings.ItemNotInInventoryException:
+                            display(settings.itemNotInInventoryMsg.replace('ITEM_NAME'), item.name)
+                        except settings.invalidItemException:
                             display(settings.invalidItemMsg)
                             itemMsgGivenThisTurn = True
+                            return False
                     else:
                         pass  # what do i do here?
         else:
@@ -139,11 +149,13 @@ def processCommand(c):
 
     # checks to see if user tried to use a game command: looking around, checking inventory
     def gameCommandCheck(c):
+        global invMsgGivenThisTurn
         if c in settings.lookAroundCmds:
             lookAround()
             return True
         elif c in settings.checkInvCmds:
             showInventory()
+            invMsgGivenThisTurn = True
             return True
         else:
             return False
@@ -191,7 +203,7 @@ def processCommand(c):
                 display(settings.invalidCmdMsg)
 
     # ------- MAIN HIERARCHY ------- #
-    itemMsgGivenThisTurn = False
+    itemMsgGivenThisTurn, invMsgGivenThisTurn = False, False
     if not itemCommandCheck(c):
         if not gameCommandCheck(c):
             lookedAroundThisTurn = False
@@ -218,7 +230,7 @@ while not crashed:
     # showItems(currentRoom)
     # showDestinations(currentRoom)
     # showInventory()
-    if lookedAroundThisTurn or itemMsgGivenThisTurn:
+    if lookedAroundThisTurn or itemMsgGivenThisTurn or invMsgGivenThisTurn:
         nextInput = input('> ')
     elif movedThisTurn:
         nextInput = input(f'> {currentRoom.msgOnEnter}\n\n> ')

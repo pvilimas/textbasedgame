@@ -6,7 +6,9 @@ invalidCmdMsg = 'Command not recognized! '
 # displayed when a player tries to interact with an item that doesn't exist
 invalidItemMsg = 'That item doesn\'t exist! '
 # displayed when a player says "take" or "use" with no object in the command
-ambiguousCmdMsg = 'What do you want to '  # 'take?'
+ambiguousCmdMsg = 'What do you want to CMD_NAME?'
+# displayed when an item is not found in the inventory
+itemNotInInventoryMsg = 'No ITEM_NAME was found in your inventory!'
 
 # USE TUPLES NOT LISTS HERE (saves memory)
 
@@ -38,4 +40,7 @@ class CannotTakeItemException(Exception):
 
 
 class ItemNotInInventoryException(Exception):
+    pass
+
+class invalidItemException(Exception):
     pass

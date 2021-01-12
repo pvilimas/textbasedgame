@@ -9,7 +9,7 @@ class Item:
         self.keywords = {
             'use': kwUse,
             'take': ('take', 'pick up'),
-            'drop': ('drop',)
+            'drop': ('drop', 'put down')
         }
         self.msgOnUse = f'You used the {self.name}. '
         self.msgOnTake = f'You took the {self.name}. '
