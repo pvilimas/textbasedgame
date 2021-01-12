@@ -66,6 +66,7 @@ def pickUpItem(itemID):
     if not item.canBePickedUp or item not in currentRoom.itemList:
         raise settings.CannotTakeItemException
     else:
+        display(f'You picked up the {item.name}')
         inventory.append(itemID)
 
 
@@ -108,7 +109,7 @@ def processCommand(c):
                             if kw == 'use':
                                 display(item.use())
                                 return True
-                            elif kw == 'pick up':
+                            elif kw == 'pick up' or kw == 'take':
                                 pickUpItem(item.ID)
                                 return True
                             elif kw == 'drop':
