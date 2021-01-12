@@ -4,13 +4,21 @@ from initialize import initializeManual
 import settings
 roomList, itemList = initializeManual()
 
-inventory = itemList
+inventory = []
 
 progression = {  # do this much later
-    'completed': [],
-    'remaining': [],
+    'completed': [],  # starts empty of course
+    'remaining': [],  # once this is done, this list should be received as a return value from initializeManual
     'next': []  # set this to remaining[0] every turn
 }
+
+def addToInventory(item):
+    global inventory
+    inventory.append(item)
+
+def removeFromInventory(item):
+    global inventory
+    inventory.remove(item)
 
 # methods for debugging only
 
@@ -35,7 +43,7 @@ def showItems(room):
 def showInventory():  # this one's gotta actually be detailed and look good bc it will be in the game
     global inventory
     display(
-        f"Your inventory contains {' and '.join(repr(i) for i in inventory)}.")
+        f"Your inventory contains {' and '.join(repr(i) for i in inventory)}.") if len(inventory) > 0 else display('Your inventory is empty.')
 
 
 def lookAround():  # same here
@@ -52,6 +60,7 @@ currentRoom = roomList[currentRoomID]
 movedThisTurn = True
 lookedAroundThisTurn = False
 itemMsgGivenThisTurn = False
+invMsgGivenThisTurn = False
 
 # later on, change this to GUI/pygame based
 
@@ -60,67 +69,79 @@ def display(text):
     print(f'\n> {text}\n')
 
 
-def pickUpItem(itemID):
+def takeItem(itemID):
     global currentRoom
     item = itemList[itemID]
     if not item.canBePickedUp or item not in currentRoom.itemList:
         raise settings.CannotTakeItemException
     else:
-        display(f'You picked up the {item.name}')
-        inventory.append(itemID)
+        currentRoom.itemList.remove(item)
+        inventory.append(item)
+        display(item.msgOnTake)
 
 
 def dropItem(itemID):
+    print('dropping!')
     item = itemList[itemID]
     if item not in inventory:
         # maybe implicitly raise a value error here instead?
         raise settings.ItemNotInInventoryException
     else:
-        inventory.remove(itemID)
+        currentRoom.itemList.append(item)
+        inventory.remove(item)
+        display(item.msgOnDrop)
 
 # useItem does not exist, maybe it should but for now it's in the item class: item.use()
 # and it returns the string to display
 
 
 def processCommand(c):
-    global lookedAroundThisTurn, itemMsgGivenThisTurn
-    lookedAroundThisTurn = False
+    global lookedAroundThisTurn, itemMsgGivenThisTurn, invMsgGivenThisTurn
+    lookedAroundThisTurn, invMsgGivenThisTurn = False, False
 
     # checks to see if user tried to use, drop, or take an item
     def itemCommandCheck(c):
-        global itemList, itemMsgGivenThisTurn
+        global itemList, inventory, itemMsgGivenThisTurn
         for item in currentRoom.itemList:
             # command should look like keyword + space + itemName: "use rope"
             for keywordAliasList in item.keywords.values():  # keywordAliasList = ('take', 'pick up')
                 for kw in keywordAliasList:  # kw = 'take'
+                    kw = kw.strip()
                     commandOnly = c.strip()  # commandOnly goes from 'take rope   ' to 'take rope'
                     # 'take' 'rope' / 'take rope'
                     #print(f'{kw} {item.name.strip()} / "{commandOnly}"')
                     #print(commandOnly == f"{kw} {item.name}")
                     if commandOnly == kw:  # if the user only said 'take' or 'use'
                         if not itemMsgGivenThisTurn:
-                            display(f'{settings.ambiguousCmdMsg + kw}?')
+                            display(f'{settings.ambiguousCmdMsg.replace("CMD_NAME", kw)}')
                             itemMsgGivenThisTurn = True
                         itemErrorMsgGiven = True
                     # 'take rope', 'turn on light', etc
                     elif commandOnly == f'{kw} {item.name}':
                         try:
                             itemMsgGivenThisTurn = True
-                            if kw == 'use':
-                                display(item.use())
+                            if kw in item.keywords['use']:
+                                if item in inventory:
+                                    display(item.use())
+                                    return True
+                                else:
+                                    display(settings.itemNotInInventoryMsg.replace('ITEM_NAME'), item.name)
+                                    return False
+                            elif kw in item.keywords['take']:
+                                takeItem(item.ID)
                                 return True
-                            elif kw == 'pick up' or kw == 'take':
-                                pickUpItem(item.ID)
-                                return True
-                            elif kw == 'drop':
+                            elif kw in item.keywords['drop']:
                                 dropItem(item.ID)
                                 return True
                             else:
                                 itemMsgGivenThisTurn = False
                                 return False
-                        except:  # might have to be more specific here later with diff error types
+                        except settings.ItemNotInInventoryException:
+                            display(settings.itemNotInInventoryMsg.replace('ITEM_NAME'), item.name)
+                        except settings.invalidItemException:
                             display(settings.invalidItemMsg)
                             itemMsgGivenThisTurn = True
+                            return False
                     else:
                         pass  # what do i do here?
         else:
@@ -128,11 +149,13 @@ def processCommand(c):
 
     # checks to see if user tried to use a game command: looking around, checking inventory
     def gameCommandCheck(c):
+        global invMsgGivenThisTurn
         if c in settings.lookAroundCmds:
             lookAround()
             return True
         elif c in settings.checkInvCmds:
             showInventory()
+            invMsgGivenThisTurn = True
             return True
         else:
             return False
@@ -180,7 +203,7 @@ def processCommand(c):
                 display(settings.invalidCmdMsg)
 
     # ------- MAIN HIERARCHY ------- #
-    itemMsgGivenThisTurn = False
+    itemMsgGivenThisTurn, invMsgGivenThisTurn = False, False
     if not itemCommandCheck(c):
         if not gameCommandCheck(c):
             lookedAroundThisTurn = False
@@ -207,7 +230,7 @@ while not crashed:
     # showItems(currentRoom)
     # showDestinations(currentRoom)
     # showInventory()
-    if lookedAroundThisTurn or itemMsgGivenThisTurn:
+    if lookedAroundThisTurn or itemMsgGivenThisTurn or invMsgGivenThisTurn:
         nextInput = input('> ')
     elif movedThisTurn:
         nextInput = input(f'> {currentRoom.msgOnEnter}\n\n> ')
