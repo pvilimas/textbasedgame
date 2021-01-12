@@ -11,7 +11,7 @@ at some point, setup pygame shit and change display method to GUI
     extra parameter into display function saying whether this is game or user text and the color is dependent on that maybe
     customInput which is similar to display (returns the input but adds a > at the start)
 objectives - point counter for each item that is collected/used?
-verbose?
+verbose mode?
 dynamic commands list ("help") instead of hardcoding it? unlikely
 make plot and story and hardcode all rooms (last thing)
 
@@ -21,7 +21,7 @@ item inventory/player class?
 saving game, title screen, other stuff
 
 bugs:
-adding a space at the end of a command like "look " makes it unrecognized, use strip() or whatever
+"command not recognized!"
 
 done:
 add text overrides for rooms ("you used the key" "you turned on the light" "you walked down the stairs" "you turned left and went into the cellar)
