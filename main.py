@@ -6,6 +6,8 @@ roomList, itemList = initializeManual()
 
 import pygame
 
+GUIEnabled = False
+
 inventory = []
 
 progression = {  # do this much later
@@ -68,7 +70,8 @@ invMsgGivenThisTurn = False
 
 
 def display(text):
-    print(f'\n> {text}\n')
+    global GUIEnabled
+    if not GUIEnabled: print(f'\n> {text}\n')
 
 
 def takeItem(itemID):

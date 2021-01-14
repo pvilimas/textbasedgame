@@ -1,3 +1,4 @@
+import pygame
 roomNotFoundMsg = 'Room not found. '  # currently unused
 # displayed when a player tries to move north when there's no room that way
 invalidDirMsg = 'You can\'t go that way! '
@@ -33,6 +34,18 @@ lookAroundCmds = ('look', 'look around', 'Look', 'Look around',
                   'Look Around')  # hmm i wonder what these do
 # commands to look through the inventory
 checkInvCmds = ('inventory', 'Inventory', 'inv', 'Inv')
+
+# GUI stuff
+
+pygame.font.init()
+pygame.display.init()
+dispHeight = 800
+dispWidth = 800
+pygame.display.set_mode((dispWidth, dispHeight))
+gameColor = (10, 128, 43)
+userColor = (10, 128, 43) #for now
+#gameFont = pygame.font.Font('/data/fonts/GearusCondensedBook.otf', 20)
+
 
 
 class CannotTakeItemException(Exception):
