@@ -4,6 +4,8 @@ from initialize import initializeManual
 import settings
 roomList, itemList = initializeManual()
 
+import pygame
+
 inventory = []
 
 progression = {  # do this much later
@@ -221,8 +223,10 @@ def processCommand(c):
                 except:
                     pass
 
-# ------- MAIN GAME LOOP ------- #
+pygame.init()
+# set up fonts here
 
+# ------- MAIN GAME LOOP ------- #
 
 crashed = False
 while not crashed:
