@@ -102,12 +102,14 @@ def dropItem(itemID):
 
 def processCommand(c):
     global lookedAroundThisTurn, itemMsgGivenThisTurn, invMsgGivenThisTurn
-    lookedAroundThisTurn, invMsgGivenThisTurn = False, False
+    lookedAroundThisTurn, itemMsgGivenThisTurn, invMsgGivenThisTurn = False, False, False
 
     # checks to see if user tried to use, drop, or take an item
     def itemCommandCheck(c):
         global itemList, inventory, itemMsgGivenThisTurn
-        for item in currentRoom.itemList:
+        itemMasterList = itemList
+        itemMasterList.extend(inventory)
+        for item in itemMasterList:
             # command should look like keyword + space + itemName: "use rope"
             for keywordAliasList in item.keywords.values():  # keywordAliasList = ('take', 'pick up')
                 for kw in keywordAliasList:  # kw = 'take'
@@ -130,7 +132,7 @@ def processCommand(c):
                                     display(item.use())
                                     return True
                                 else:
-                                    display(settings.itemNotInInventoryMsg.replace('ITEM_NAME'), item.name)
+                                    display(settings.itemNotInInventoryMsg.replace('ITEM_NAME', item.name))
                                     return False
                             elif kw in item.keywords['take']:
                                 takeItem(item.ID)
@@ -142,7 +144,7 @@ def processCommand(c):
                                 itemMsgGivenThisTurn = False
                                 return False
                         except settings.ItemNotInInventoryException:
-                            display(settings.itemNotInInventoryMsg.replace('ITEM_NAME'), item.name)
+                            display(settings.itemNotInInventoryMsg.replace('ITEM_NAME', item.name))
                         except settings.invalidItemException:
                             display(settings.invalidItemMsg)
                             itemMsgGivenThisTurn = True
