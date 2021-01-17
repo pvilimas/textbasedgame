@@ -6,7 +6,7 @@ roomList, itemList = initializeManual()
 
 import pygame
 
-GUIEnabled = False
+GUIEnabled = False #maybe enable this in the actual game so people can decide to play from command line or GUI window lol
 
 inventory = []
 
@@ -70,8 +70,7 @@ invMsgGivenThisTurn = False
 
 
 def display(text):
-    global GUIEnabled
-    if not GUIEnabled: print(f'\n> {text}\n')
+    print(f'\n> {text}\n')
 
 
 def takeItem(itemID):
