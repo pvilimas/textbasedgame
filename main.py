@@ -208,10 +208,9 @@ def processCommand(c):
                 display(settings.invalidCmdMsg)
 
     # ------- MAIN HIERARCHY ------- #
-    itemMsgGivenThisTurn, invMsgGivenThisTurn = False, False
+    lookedAroundThisTurn, itemMsgGivenThisTurn, invMsgGivenThisTurn = False, False, False
     if not itemCommandCheck(c):
         if not gameCommandCheck(c):
-            lookedAroundThisTurn = False
             if not movementCommandCheck(c):
                 pass
             else:
