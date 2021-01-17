@@ -233,6 +233,7 @@ pygame.init()
 
 crashed = False
 while not crashed:
+    pygame.display.flip()
     currentRoom = roomList[currentRoomID]
     # showItems(currentRoom)
     # showDestinations(currentRoom)
