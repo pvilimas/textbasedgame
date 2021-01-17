@@ -36,13 +36,16 @@ lookAroundCmds = ('look', 'look around', 'Look', 'Look around',
 checkInvCmds = ('inventory', 'Inventory', 'inv', 'Inv')
 
 # GUI stuff
-
-pygame.font.init()
-pygame.display.init()
+pygame.init()
 dispHeight = 800
 dispWidth = 800
-gameColor = (10, 128, 43)
-userColor = (10, 128, 43) #for now
+gameFPS = 30
+
+white = (255, 255, 255)
+green = (10, 128, 43)
+
+gameColor = green
+userColor = green #for now
 gameFont = pygame.font.Font('data//fonts//GearusCondensedBook.otf', 20)
 
 

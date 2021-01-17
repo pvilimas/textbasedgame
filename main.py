@@ -5,7 +5,6 @@ import settings
 roomList, itemList = initializeManual()
 
 import pygame
-
 GUIEnabled = False #maybe enable this in the actual game so people can decide to play from command line or GUI window lol
 
 inventory = []
@@ -228,15 +227,23 @@ def processCommand(c):
 
 pygame.init()
 mainDisp = pygame.display.set_mode((settings.dispWidth, settings.dispHeight))
+pygame.display.set_caption('Text Based Game')
+pygame.display.flip()
 # set up fonts here
 
 # ------- MAIN GAME LOOP ------- #
 
+clock = pygame.time.Clock()
 crashed = False
+testText = settings.gameFont.render('hello', True, (0, 0, 0))
 while not crashed:
-    testText = settings.gameFont.render('hello', False, settings.gameColor)
+    for event in pygame.event.get():
+        if event.type == pygame.quit:
+            crashed = True
+    mainDisp.fill(settings.white)
+    pygame.display.update()
+    clock.tick(settings.gameFPS)
     mainDisp.blit(testText, (50, 50))
-    pygame.display.flip()
     currentRoom = roomList[currentRoomID]
     # showItems(currentRoom)
     # showDestinations(currentRoom)
@@ -248,6 +255,6 @@ while not crashed:
     else:
         nextInput = input(f'> {currentRoom.msgOnStay}\n\n> ')
     processCommand(nextInput.strip())
-
+pygame.quit()
 
 # ------- MAIN GAME LOOP ------- #
