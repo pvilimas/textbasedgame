@@ -231,7 +231,7 @@ mainDisp = pygame.display.set_mode((settings.dispWidth, settings.dispHeight))
 pygame.display.set_caption('Text Based Game')
 pygame.display.flip()
 # set up fonts here
-testText = settings.gameFont.render('hello', True, (0, 0, 0))
+testText = settings.gameFont.render('Test', True, (0, 0, 0))
 mainDisp.fill(settings.green)
 
 # ------- MAIN GAME LOOP ------- #

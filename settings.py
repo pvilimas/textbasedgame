@@ -46,7 +46,7 @@ green = (10, 128, 43)
 
 gameColor = green
 userColor = green #for now
-gameFont = pygame.font.Font('data//fonts//GearusCondensedBook.otf', 20)
+gameFont = pygame.font.Font('data//fonts//AndaleMono.ttf', 20)
 
 
 
