@@ -11,23 +11,28 @@ roomList = []
 def initializeManual():
     global roomList
     # assuming we want to use all room names in that list
-    roomList = [Room(name, i) for i, name in enumerate(settings.possibleRoomNames)]
+    roomList = [Room(name, i)
+                for i, name in enumerate(settings.possibleRoomNames)]
     for r in roomList:
         print(f'{r:short}')
+    itemList = [Item(name, i, ('use',)) for i, name in enumerate(
+        settings.possibleItemNames)]  # use is the default keyword
 
-    linkRooms(0, 1, "South")
-    linkRooms(0, 2, "East")
-    linkRooms(0, 8, "West")
-    linkRooms(8, 5, "South")
-    linkRooms(1, 7, "East")
-    linkRooms(7, 4, "East")
-    linkRooms(2, 6, "North")
-    linkRooms(2, 3, "East")
-    linkRooms(3, 4, "South")
+    linkRooms(0, 1, 'South')
+    linkRooms(0, 2, 'East')
+    linkRooms(0, 8, 'West')
+    linkRooms(8, 5, 'South')
+    linkRooms(1, 7, 'East')
+    linkRooms(7, 4, 'East')
+    linkRooms(2, 6, 'North')
+    linkRooms(2, 3, 'East')
+    linkRooms(3, 4, 'South')
+    linkRooms(5, 9, 'South')
+    linkRooms(1, 9, 'Southwest')
 
-    addItemToRoom(Item("rope", "use"), 0)
+    addItemToRoom(itemList[0], 0)
 
-    return roomList
+    return roomList, itemList
 
 
 def linkRooms(a, b, dir):  # dir = direction from a to b
@@ -37,22 +42,22 @@ def linkRooms(a, b, dir):  # dir = direction from a to b
     a, b = roomList[a], roomList[b]
     # print(type(a))
     # set the inverse first
-    if dir == "North":
-        b.destinations["South"] = a.ID
-    elif dir == "South":
-        b.destinations["North"] = a.ID
-    elif dir == "East":
-        b.destinations["West"] = a.ID
-    elif dir == "West":
-        b.destinations["East"] = a.ID
-    elif dir == "Northeast":
-        b.destinations["Southwest"] = a.ID
-    elif dir == "Southeast":
-        b.destinations["Northwest"] = a.ID
-    elif dir == "Northwest":
-        b.destinations["Southeast"] = a.ID
-    elif dir == "Southwest":
-        b.destinations["Northeast"] = a.ID
+    if dir == 'North':
+        b.destinations['South'] = a.ID
+    elif dir == 'South':
+        b.destinations['North'] = a.ID
+    elif dir == 'East':
+        b.destinations['West'] = a.ID
+    elif dir == 'West':
+        b.destinations['East'] = a.ID
+    elif dir == 'Northeast':
+        b.destinations['Southwest'] = a.ID
+    elif dir == 'Southeast':
+        b.destinations['Northwest'] = a.ID
+    elif dir == 'Northwest':
+        b.destinations['Southeast'] = a.ID
+    elif dir == 'Southwest':
+        b.destinations['Northeast'] = a.ID
     else:
         pass  # not sure what to put here
     # set the dir from A to B, avoid invalid key error
@@ -72,7 +77,14 @@ def getRoom(input, rl):  # rl = roomlist
         else:
             raise Exception
 
+
 def addItemToRoom(i, r):
     if type(r) is int:
         r = roomList[r]
     r.itemList.append(i)
+
+
+def setMessages(r, e, s, l): #do the same for the items later
+    # this is 100% broken but ill figure it out later lol
+    [e, s, l].map(lambda x: x.replace('ROOM_NAME', r.name))
+    r.msgOnEnter, r.msgOnStay, r.msgOnLook = e, s, l
