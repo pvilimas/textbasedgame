@@ -5,5 +5,5 @@ def displayText(text):
     text = f'\n> {text}\n'
     return text
 
-def customInput(text, type): #type = 'game' or 'user'
+def displayInput(text, type): #type = 'game' or 'user'
     return text

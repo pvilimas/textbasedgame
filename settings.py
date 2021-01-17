@@ -41,10 +41,9 @@ pygame.font.init()
 pygame.display.init()
 dispHeight = 800
 dispWidth = 800
-pygame.display.set_mode((dispWidth, dispHeight))
 gameColor = (10, 128, 43)
 userColor = (10, 128, 43) #for now
-#gameFont = pygame.font.Font('/data/fonts/GearusCondensedBook.otf', 20)
+gameFont = pygame.font.Font('data//fonts//GearusCondensedBook.otf', 20)
 
 
 

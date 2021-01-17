@@ -227,12 +227,15 @@ def processCommand(c):
                     pass
 
 pygame.init()
+mainDisp = pygame.display.set_mode((settings.dispWidth, settings.dispHeight))
 # set up fonts here
 
 # ------- MAIN GAME LOOP ------- #
 
 crashed = False
 while not crashed:
+    testText = settings.gameFont.render('hello', False, settings.gameColor)
+    mainDisp.blit(testText, (50, 50))
     pygame.display.flip()
     currentRoom = roomList[currentRoomID]
     # showItems(currentRoom)
