@@ -2,6 +2,7 @@ import settings
 from pygame import Rect
 import pygame
 import textwrap
+from copy import deepcopy
 
 pygame.display.init()
 
@@ -43,13 +44,11 @@ class TextArea:
             self.text += f'\n{str(line)}'
 
     def addText(self, text):  # a single string
-        textToReturn = text
-        if len(text) > self.charLimit:
-            #text = '\n'.join([text[i:i+self.charLimit] for i in range(0, len(text), self.charLimit)])
-            text = textwrap.fill(text, width=self.charLimit)
-        for lineToAdd in text.split('\n'):
+        textToChange = deepcopy(text)
+        if len(textToChange) > self.charLimit:
+            textToChange = textwrap.fill(textToChange, width=self.charLimit).strip()
+        for lineToAdd in textToChange.split('\n'):
             self.addLines(lineToAdd)
-        return textToReturn
 
     def display(self):
         pygame.draw.rect(self.dispSurface,

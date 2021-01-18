@@ -7,6 +7,7 @@ roomList, itemList = initializeManual()
 
 import pygame
 from pygame.locals import *
+from copy import deepcopy
 
 pygame.init()
 mainDisp = pygame.display.set_mode((settings.dispWidth, settings.dispHeight))
@@ -258,13 +259,10 @@ while not crashed:
 
         nextInput = tb.addText(f"> {input('> ')}")
     elif movedThisTurn:
-        userInput = input(f'> {currentRoom.msgOnEnter}\n\n> ')
-        print(userInput)
-        nextInput = tb.addText(f'> {userInput}')
+        nextInput = input(f'> {currentRoom.msgOnEnter}\n\n> ')
     else:
-        userInput = input(f'> {currentRoom.msgOnStay}\n\n> ')
-        print(userInput)
-        nextInput = tb.addText(f'> {userInput}')
+        nextInput = input(f'> {currentRoom.msgOnStay}\n\n> ')
+    tb.addText(f'> {nextInput}')
     processCommand(nextInput.strip())
     clock.tick(settings.gameFPS)
 
