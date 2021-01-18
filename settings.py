@@ -49,9 +49,8 @@ red = (230, 20, 20)
 
 bgColor = darkGray
 gameTextColor = green
-userTextColor = green #for now
+userTextColor = green  # for now
 gameFont = pygame.font.Font('data//fonts//AndaleMono.ttf', 20)
-
 
 
 class CannotTakeItemException(Exception):
@@ -60,6 +59,7 @@ class CannotTakeItemException(Exception):
 
 class ItemNotInInventoryException(Exception):
     pass
+
 
 class invalidItemException(Exception):
     pass

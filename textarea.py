@@ -6,6 +6,7 @@ from copy import deepcopy
 
 pygame.display.init()
 
+
 class TextArea:
 
     lineLimit = 5
@@ -29,24 +30,27 @@ class TextArea:
         for line in args:
             self.lines.append(str(line))
             if len(self.lines) > self.lineLimit:
-                self.text = self.text.replace(self.lines[0], '', 1)
+                self.text = self.text.replace(
+                    self.lines[0], '', 1)  # 1 occurrence only
                 self.lines.remove(self.lines[0])
         self.text = ''
         for line in self.lines:
             if str(line).strip().replace('>', '') == '':
                 self.lines.remove(line)
-            else: self.text += f'\n{str(line)}'
+            else:
+                self.text += f'\n{str(line)}'
 
     def addText(self, text):  # a single string
         textToChange = deepcopy(text)
         if len(textToChange) > self.charLimit:
-            textToChange = textwrap.fill(textToChange, width=self.charLimit).strip().replace('\n', '\n  ')
+            textToChange = textwrap.fill(
+                textToChange, width=self.charLimit).strip().replace('\n', '\n  ')
         for lineToAdd in textToChange.split('\n'):
             self.addLines(lineToAdd)
 
     def display(self):
         pygame.draw.rect(self.dispSurface,
-                             settings.medGray, self.getRect(), 3)
+                         settings.medGray, self.getRect(), 3)
         #pygame.draw.rect(self.dispSurface, settings.red, self.getMarginRect(), 3)
         for i, line in enumerate(self.lines):
             txt = settings.gameFont.render(line, True, settings.gameTextColor)

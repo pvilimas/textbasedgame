@@ -84,7 +84,7 @@ def addItemToRoom(i, r):
     r.itemList.append(i)
 
 
-def setMessages(r, e, s, l): #do the same for the items later
+def setMessages(r, e, s, l):  # do the same for the items later
     # this is 100% broken but ill figure it out later lol
     [e, s, l].map(lambda x: x.replace('ROOM_NAME', r.name))
     r.msgOnEnter, r.msgOnStay, r.msgOnLook = e, s, l

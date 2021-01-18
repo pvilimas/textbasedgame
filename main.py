@@ -1,3 +1,6 @@
+from copy import deepcopy
+from pygame.locals import *
+import pygame
 from item import Item
 from room import Room
 from initialize import initializeManual
@@ -5,9 +8,6 @@ from textarea import TextArea
 import settings
 roomList, itemList = initializeManual()
 
-import pygame
-from pygame.locals import *
-from copy import deepcopy
 
 pygame.init()
 mainDisp = pygame.display.set_mode((settings.dispWidth, settings.dispHeight))
@@ -15,9 +15,10 @@ pygame.display.set_caption('Text Based Game')
 pygame.display.flip()
 # set up fonts here
 mainDisp.fill(settings.bgColor)
-tb = TextArea(mainDisp, 0, 0, settings.dispWidth, settings.dispHeight) #does not account for margin
+tb = TextArea(mainDisp, 0, 0, settings.dispWidth,
+              settings.dispHeight)  # does not account for margin
 
-GUIEnabled = False #maybe enable this in the actual game so people can decide to play from command line or GUI window lol
+GUIEnabled = False  # maybe enable this in the actual game so people can decide to play from command line or GUI window lol
 
 inventory = []
 
@@ -27,9 +28,11 @@ progression = {  # do this much later
     'next': []  # set this to remaining[0] every turn
 }
 
+
 def addToInventory(item):
     global inventory
     inventory.append(item)
+
 
 def removeFromInventory(item):
     global inventory
@@ -111,7 +114,6 @@ def dropItem(itemID):
 # and it returns the string to display
 
 
-
 def processCommand(c):
     global lookedAroundThisTurn, itemMsgGivenThisTurn, invMsgGivenThisTurn
     lookedAroundThisTurn, itemMsgGivenThisTurn, invMsgGivenThisTurn = False, False, False
@@ -132,7 +134,8 @@ def processCommand(c):
                     #print(commandOnly == f"{kw} {item.name}")
                     if commandOnly == kw:  # if the user only said 'take' or 'use'
                         if not itemMsgGivenThisTurn:
-                            display(f'{settings.ambiguousCmdMsg.replace("CMD_NAME", kw)}')
+                            display(
+                                f'{settings.ambiguousCmdMsg.replace("CMD_NAME", kw)}')
                             itemMsgGivenThisTurn = True
                         itemErrorMsgGiven = True
                     # 'take rope', 'turn on light', etc
@@ -144,7 +147,8 @@ def processCommand(c):
                                     display(item.use())
                                     return True
                                 else:
-                                    display(settings.itemNotInInventoryMsg.replace('ITEM_NAME', item.name))
+                                    display(settings.itemNotInInventoryMsg.replace(
+                                        'ITEM_NAME', item.name))
                                     return False
                             elif kw in item.keywords['take']:
                                 takeItem(item.ID)
@@ -156,7 +160,8 @@ def processCommand(c):
                                 itemMsgGivenThisTurn = False
                                 return False
                         except settings.ItemNotInInventoryException:
-                            display(settings.itemNotInInventoryMsg.replace('ITEM_NAME', item.name))
+                            display(settings.itemNotInInventoryMsg.replace(
+                                'ITEM_NAME', item.name))
                         except settings.invalidItemException:
                             display(settings.invalidItemMsg)
                             itemMsgGivenThisTurn = True
