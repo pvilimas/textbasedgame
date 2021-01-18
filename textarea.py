@@ -1,7 +1,6 @@
 import settings
 from pygame import Rect
-import pygame
-import textwrap
+import pygame, pygame_input, textwrap
 from copy import deepcopy
 
 pygame.display.init()
@@ -9,16 +8,15 @@ pygame.display.init()
 
 class TextArea:
 
-    lineLimit = 5
-    charLimit = 50  # per line
-    verticalSpacing = 30  # px
+    lineLimit = 5 # won't actually be 5, more like 19-20
+    charLimit = 50  # chars per line
+    verticalSpacing = 30  # px between lines
     margin = 30
 
     def __init__(self, dispSurface, x, y, w, h):
         self.x, self.y, self.w, self.h = x, y, w, h  # x, y = top left corner
         self.centerX, centerY = x+w//2, y+h//2  # // = integer division
         self.lineLimit = (self.getMarginHeight() // 40) + 1
-        print(self.lineLimit)
         self.text = ''
         self.lines = []
         self.dispSurface = dispSurface
@@ -59,8 +57,21 @@ class TextArea:
             # print(self.getMarginHeight())
             self.dispSurface.blit(
                 txt, (self.x+self.margin, self.y + self.margin + (i*self.verticalSpacing)))
-
+    
     def customInput(self, text):
+        pygame.event.clear()
+        while True:
+            e = pygame.event.wait()
+            if e.type == pygame.QUIT:
+                pygame.quit()
+                exit()
+            elif event.type == KEYDOWN:
+                if event.key == pygame.K_RETURN or event.key == pygame.K_ENTER:
+                    return text
+                elif event.key in settings.alphanumericKeys.keys():
+                    text += settings.alphanumericKeys[event.key]
+
+        #when finished
         self.addText(text)
         return input(text)
 

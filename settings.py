@@ -52,6 +52,11 @@ gameTextColor = green
 userTextColor = green  # for now
 gameFont = pygame.font.Font('data//fonts//AndaleMono.ttf', 20)
 
+# used for customInput in TextArea class
+
+alphanumericKeys = {
+    pygame.K_
+}
 
 class CannotTakeItemException(Exception):
     pass
