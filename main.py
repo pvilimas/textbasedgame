@@ -17,6 +17,7 @@ pygame.display.flip()
 mainDisp.fill(settings.bgColor)
 tb = TextArea(mainDisp, 0, 0, settings.dispWidth,
               settings.dispHeight)  # does not account for margin
+tb.addText('> ')
 
 GUIEnabled = False  # maybe enable this in the actual game so people can decide to play from command line or GUI window lol
 
@@ -257,6 +258,7 @@ while not crashed:
             pygame.quit()
             exit()
     mainDisp.fill(settings.bgColor)
+    print(tb.text)
     tb.display()
     pygame.display.flip()
     currentRoom = roomList[currentRoomID]

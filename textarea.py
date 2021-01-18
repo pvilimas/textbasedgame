@@ -52,7 +52,7 @@ class TextArea:
                          settings.medGray, self.getRect(), 3)
         #pygame.draw.rect(self.dispSurface, settings.red, self.getMarginRect(), 3)
         for i, line in enumerate(self.lines):
-            txt = settings.gameFont.render(line, True, settings.gameTextColor)
+            txt = settings.gameFont.render(line.replace('> > ', '> '), True, settings.gameTextColor)
             pygame.draw.rect(self.dispSurface,
                              settings.medGray, self.getRect(), 3)
             # print(self.getMarginHeight())
@@ -71,12 +71,15 @@ class TextArea:
                     return text
                 elif e.key == pygame.K_BACKSPACE:
                     if text.length > 0: text = text[:-1]
+                    self.display()
                 elif pygame.key.get_pressed()[pygame.K_LSHIFT] or pygame.key.get_pressed()[pygame.K_RSHIFT]:
                     if e.key in settings.shiftMods:
                         text += settings.shiftMods[e.key]
+                        self.display()
                 elif e.key in settings.alphanumericKeys.keys():
                     text += settings.alphanumericKeys[e.key]
-            self.display()
+                    self.display()
+
 
         #when finished
         self.addText(text)
