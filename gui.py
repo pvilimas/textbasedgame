@@ -43,19 +43,22 @@ class TextArea:
             self.text += f'\n{str(line)}'
 
     def addText(self, text):  # a single string
+        textToReturn = text
         if len(text) > self.charLimit:
             #text = '\n'.join([text[i:i+self.charLimit] for i in range(0, len(text), self.charLimit)])
             text = textwrap.fill(text, width=self.charLimit)
         for lineToAdd in text.split('\n'):
             self.addLines(lineToAdd)
+        return textToReturn
 
     def display(self):
+        pygame.draw.rect(self.dispSurface,
+                             settings.medGray, self.getRect(), 3)
+        #pygame.draw.rect(self.dispSurface, settings.red, self.getMarginRect(), 3)
         for i, line in enumerate(self.lines):
             txt = settings.gameFont.render(line, True, settings.gameTextColor)
             pygame.draw.rect(self.dispSurface,
-                             settings.gameTextColor, self.getRect(), 3)
-            pygame.draw.rect(self.dispSurface, settings.red,
-                             self.getMarginRect(), 3)
+                             settings.medGray, self.getRect(), 3)
             # print(self.getMarginHeight())
             self.dispSurface.blit(
                 txt, (self.x+self.margin, self.y + self.margin + (i*self.verticalSpacing)))

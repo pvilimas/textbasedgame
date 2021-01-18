@@ -14,7 +14,7 @@ pygame.display.set_caption('Text Based Game')
 pygame.display.flip()
 # set up fonts here
 mainDisp.fill(settings.bgColor)
-tb = TextArea(mainDisp, 50, 50, settings.dispWidth - 100, 300)
+tb = TextArea(mainDisp, 50, 50, settings.dispWidth - 100, settings.dispHeight - 100)
 
 GUIEnabled = False #maybe enable this in the actual game so people can decide to play from command line or GUI window lol
 
@@ -255,11 +255,16 @@ while not crashed:
     # showDestinations(currentRoom)
     # showInventory()
     if lookedAroundThisTurn or itemMsgGivenThisTurn or invMsgGivenThisTurn:
-        nextInput = input('> ')
+
+        nextInput = tb.addText(f"> {input('> ')}")
     elif movedThisTurn:
-        nextInput = input(f'> {currentRoom.msgOnEnter}\n\n> ')
+        userInput = input(f'> {currentRoom.msgOnEnter}\n\n> ')
+        print(userInput)
+        nextInput = tb.addText(f'> {userInput}')
     else:
-        nextInput = input(f'> {currentRoom.msgOnStay}\n\n> ')
+        userInput = input(f'> {currentRoom.msgOnStay}\n\n> ')
+        print(userInput)
+        nextInput = tb.addText(f'> {userInput}')
     processCommand(nextInput.strip())
     clock.tick(settings.gameFPS)
 
