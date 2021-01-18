@@ -1,7 +1,7 @@
 from item import Item
 from room import Room
 from initialize import initializeManual
-from gui import TextArea
+from textarea import TextArea
 import settings
 roomList, itemList = initializeManual()
 
