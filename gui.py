@@ -13,6 +13,7 @@ def displayInput(text, type): #type = 'game' or 'user'
 class TextArea:
 
     numLines = 5
+    verticalSpacing = 30 # px
     def __init__(self, dispSurface):
         self.text = ''
         self.lines = []
@@ -25,7 +26,12 @@ class TextArea:
         for line in args:
             self.lines.append(str(line))
             self.text += f'\n{str(line)}'
+    
+    def addText(self, text): # a single string
+        for lineToAdd in text.split('\n'):
+            self.addLines(lineToAdd)
 
     def display(self):
-        txt = settings.gameFont.render(self.text, True, settings.gameColor)
-        self.dispSurface.blit(txt, (400, 400))
+        for i, line in enumerate(self.lines):
+            txt = settings.gameFont.render(line, True, settings.gameTextColor)
+            self.dispSurface.blit(txt, (400, 400 + (i*self.verticalSpacing)))

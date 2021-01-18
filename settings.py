@@ -43,9 +43,11 @@ gameFPS = 30
 
 white = (255, 255, 255)
 green = (10, 128, 43)
+darkGray = (40, 40, 40)
 
-gameColor = green
-userColor = green #for now
+bgColor = darkGray
+gameTextColor = green
+userTextColor = green #for now
 gameFont = pygame.font.Font('data//fonts//AndaleMono.ttf', 20)
 
 

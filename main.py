@@ -234,8 +234,7 @@ pygame.display.flip()
 # set up fonts here
 mainDisp.fill(settings.white)
 tb = TextArea(mainDisp)
-tb.addLines('hello')
-print(f'{repr(tb)}')
+tb.addText('hello i am \n going to tape \n i mean rape \n donald trump\n :)')
 
 # ------- MAIN GAME LOOP ------- #
 
