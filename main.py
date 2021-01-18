@@ -15,7 +15,7 @@ pygame.display.set_caption('Text Based Game')
 pygame.display.flip()
 # set up fonts here
 mainDisp.fill(settings.bgColor)
-tb = TextArea(mainDisp, 50, 50, settings.dispWidth - 100, settings.dispHeight - 100)
+tb = TextArea(mainDisp, 0, 0, settings.dispWidth, settings.dispHeight) #does not account for margin
 
 GUIEnabled = False #maybe enable this in the actual game so people can decide to play from command line or GUI window lol
 
@@ -109,6 +109,7 @@ def dropItem(itemID):
 
 # useItem does not exist, maybe it should but for now it's in the item class: item.use()
 # and it returns the string to display
+
 
 
 def processCommand(c):

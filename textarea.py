@@ -31,12 +31,16 @@ class TextArea:
             if len(self.lines) > self.lineLimit:
                 self.text = self.text.replace(self.lines[0], '', 1)
                 self.lines.remove(self.lines[0])
-            self.text += f'\n{str(line)}'
+        self.text = ''
+        for line in self.lines:
+            if str(line).strip().replace('>', '') == '':
+                self.lines.remove(line)
+            else: self.text += f'\n{str(line)}'
 
     def addText(self, text):  # a single string
         textToChange = deepcopy(text)
         if len(textToChange) > self.charLimit:
-            textToChange = textwrap.fill(textToChange, width=self.charLimit).strip()
+            textToChange = textwrap.fill(textToChange, width=self.charLimit).strip().replace('\n', '\n  ')
         for lineToAdd in textToChange.split('\n'):
             self.addLines(lineToAdd)
 
