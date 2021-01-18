@@ -7,6 +7,15 @@ roomList, itemList = initializeManual()
 
 import pygame
 from pygame.locals import *
+
+pygame.init()
+mainDisp = pygame.display.set_mode((settings.dispWidth, settings.dispHeight))
+pygame.display.set_caption('Text Based Game')
+pygame.display.flip()
+# set up fonts here
+mainDisp.fill(settings.bgColor)
+tb = TextArea(mainDisp, 50, 50, settings.dispWidth - 100, 300)
+
 GUIEnabled = False #maybe enable this in the actual game so people can decide to play from command line or GUI window lol
 
 inventory = []
@@ -72,6 +81,7 @@ invMsgGivenThisTurn = False
 
 def display(text):
     print(f'\n> {text}\n')
+    tb.addText(f'\n> {text}\n')
 
 
 def takeItem(itemID):
@@ -227,14 +237,6 @@ def processCommand(c):
                 except:
                     pass
 
-pygame.init()
-mainDisp = pygame.display.set_mode((settings.dispWidth, settings.dispHeight))
-pygame.display.set_caption('Text Based Game')
-pygame.display.flip()
-# set up fonts here
-mainDisp.fill(settings.white)
-tb = TextArea(mainDisp)
-tb.addText('hello i am \n going to tape \n i mean rape \n donald trump\n :)')
 
 # ------- MAIN GAME LOOP ------- #
 
@@ -245,6 +247,7 @@ while not crashed:
         if event.type == pygame.quit:
             pygame.quit()
             exit()
+    mainDisp.fill(settings.bgColor)
     tb.display()
     pygame.display.flip()
     currentRoom = roomList[currentRoomID]

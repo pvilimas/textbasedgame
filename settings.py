@@ -44,6 +44,7 @@ gameFPS = 30
 white = (255, 255, 255)
 green = (10, 128, 43)
 darkGray = (40, 40, 40)
+red = (230, 20, 20)
 
 bgColor = darkGray
 gameTextColor = green
