@@ -1,6 +1,7 @@
 from item import Item
 from room import Room
 from initialize import initializeManual
+from gui import TextArea
 import settings
 roomList, itemList = initializeManual()
 
@@ -231,8 +232,10 @@ mainDisp = pygame.display.set_mode((settings.dispWidth, settings.dispHeight))
 pygame.display.set_caption('Text Based Game')
 pygame.display.flip()
 # set up fonts here
-testText = settings.gameFont.render('Test', True, (0, 0, 0))
-mainDisp.fill(settings.green)
+mainDisp.fill(settings.white)
+tb = TextArea(mainDisp)
+tb.addLines('hello')
+print(f'{repr(tb)}')
 
 # ------- MAIN GAME LOOP ------- #
 
@@ -243,8 +246,7 @@ while not crashed:
         if event.type == pygame.quit:
             pygame.quit()
             exit()
-    pygame.draw.rect(mainDisp, settings.white, Rect(100, 100, 300, 300))
-    mainDisp.blit(testText, (400, 400))
+    tb.display()
     pygame.display.flip()
     currentRoom = roomList[currentRoomID]
     # showItems(currentRoom)
