@@ -243,6 +243,7 @@ def processCommand(c):
 
 clock = pygame.time.Clock()
 crashed = False
+
 while not crashed:
     for event in pygame.event.get():
         if event.type == pygame.quit:
@@ -256,8 +257,7 @@ while not crashed:
     # showDestinations(currentRoom)
     # showInventory()
     if lookedAroundThisTurn or itemMsgGivenThisTurn or invMsgGivenThisTurn:
-
-        nextInput = tb.addText(f"> {input('> ')}")
+        nextInput = input('> ')
     elif movedThisTurn:
         nextInput = input(f'> {currentRoom.msgOnEnter}\n\n> ')
     else:
