@@ -62,6 +62,10 @@ class TextArea:
             self.dispSurface.blit(
                 txt, (self.x+self.margin, self.y + self.margin + (i*self.verticalSpacing)))
 
+    def customInput(self, text):
+        self.addText(text)
+        return input(text)
+
     def getRect(self):
         return Rect(self.x, self.y, self.w, self.h)
 

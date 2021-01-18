@@ -257,11 +257,11 @@ while not crashed:
     # showDestinations(currentRoom)
     # showInventory()
     if lookedAroundThisTurn or itemMsgGivenThisTurn or invMsgGivenThisTurn:
-        nextInput = input('> ')
+        nextInput = tb.customInput('> ')
     elif movedThisTurn:
-        nextInput = input(f'> {currentRoom.msgOnEnter}\n\n> ')
+        nextInput = tb.customInput(f'> {currentRoom.msgOnEnter}\n\n> ')
     else:
-        nextInput = input(f'> {currentRoom.msgOnStay}\n\n> ')
+        nextInput = tb.customInput(f'> {currentRoom.msgOnStay}\n\n> ')
     tb.addText(f'> {nextInput}')
     processCommand(nextInput.strip())
     clock.tick(settings.gameFPS)
