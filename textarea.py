@@ -1,6 +1,7 @@
-import settings
+import settings, pygame_input
 from pygame import Rect
-import pygame, pygame_input, textwrap
+import pygame
+import textwrap
 from copy import deepcopy
 
 pygame.display.init()
@@ -17,7 +18,7 @@ class TextArea:
         self.x, self.y, self.w, self.h = x, y, w, h  # x, y = top left corner
         self.centerX, centerY = x+w//2, y+h//2  # // = integer division
         self.lineLimit = (self.getMarginHeight() // 40) + 1
-        self.text = ''
+        self.text = '> '
         self.lines = []
         self.dispSurface = dispSurface
 
@@ -65,11 +66,17 @@ class TextArea:
             if e.type == pygame.QUIT:
                 pygame.quit()
                 exit()
-            elif event.type == KEYDOWN:
-                if event.key == pygame.K_RETURN or event.key == pygame.K_ENTER:
+            elif e.type == pygame.KEYDOWN:
+                if e.key == pygame.K_RETURN or e.key == pygame.K_KP_ENTER:
                     return text
-                elif event.key in settings.alphanumericKeys.keys():
-                    text += settings.alphanumericKeys[event.key]
+                elif e.key == pygame.K_BACKSPACE:
+                    if text.length > 0: text = text[:-1]
+                elif pygame.key.get_pressed()[pygame.K_LSHIFT] or pygame.key.get_pressed()[pygame.K_RSHIFT]:
+                    if e.key in settings.shiftMods:
+                        text += settings.shiftMods[e.key]
+                elif e.key in settings.alphanumericKeys.keys():
+                    text += settings.alphanumericKeys[e.key]
+            self.display()
 
         #when finished
         self.addText(text)
@@ -84,5 +91,5 @@ class TextArea:
     def getMarginHeight(self):
         return self.h - 2*self.margin
 
-    def shiftTextDown(self, numPixels):
+    def shiftTextDown(self, numPixels): #animation
         pass

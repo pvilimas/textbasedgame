@@ -75,6 +75,7 @@ def lookAround():  # same here
 currentRoomID = 0
 currentRoom = roomList[currentRoomID]
 
+firstMessageGiven = False
 movedThisTurn = True
 lookedAroundThisTurn = False
 itemMsgGivenThisTurn = False
@@ -262,7 +263,8 @@ while not crashed:
     # showItems(currentRoom)
     # showDestinations(currentRoom)
     # showInventory()
-    if lookedAroundThisTurn or itemMsgGivenThisTurn or invMsgGivenThisTurn:
+    if lookedAroundThisTurn or itemMsgGivenThisTurn or invMsgGivenThisTurn or not firstMessageGiven:
+        firstMessageGiven = True
         nextInput = tb.customInput('> ')
     elif movedThisTurn:
         nextInput = tb.customInput(f'> {currentRoom.msgOnEnter}\n\n> ')
