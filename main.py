@@ -252,6 +252,11 @@ def processCommand(c):
 clock = pygame.time.Clock()
 crashed = False
 
+#first input
+
+mainDisp.fill(settings.bgColor)
+pygame.display.flip()
+tb.customInput(f'> {currentRoom.msgOnStay}\n\n> ')
 while not crashed:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:

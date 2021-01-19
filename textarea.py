@@ -54,18 +54,22 @@ class TextArea:
     def display(self):
         #pygame.draw.rect(self.dispSurface, settings.medGray, self.getRect(), 3) # border rect
         #pygame.draw.rect(self.dispSurface, settings.red, self.getMarginRect(), 3) # margin rect
+        self.dispSurface.fill(settings.bgColor)
         for i, line in enumerate(self.lines):
             #print(i, line)
             txt = settings.gameFont.render(line.replace('> > ', '> '), True, settings.gameTextColor)
             pygame.draw.rect(self.dispSurface,
                              settings.medGray, self.getRect(), 3)
             # print(self.getMarginHeight())
+            #print(f'THE TEXT I AM DISPLAYING IS {line.replace("> > ", "> ")}')
             self.dispSurface.blit(
                 txt, (self.x+self.margin, self.y + self.margin + (i*self.verticalSpacing)))
+            pygame.display.flip()
     
     def customInput(self, text):
         pygame.event.clear()
         while True:
+            self.display()
             e = pygame.event.wait()
             if e.type == pygame.QUIT:
                 pygame.quit()
@@ -74,21 +78,20 @@ class TextArea:
                 if e.key == pygame.K_RETURN or e.key == pygame.K_KP_ENTER:
                     return text
                 elif e.key == pygame.K_BACKSPACE:
-                    if len(text) > 0: text = text[:-1]
-                    self.display()
+                    if len(text) > 0:
+                        text = text[:-1]
+                        #self.display()
                 elif pygame.key.get_pressed()[pygame.K_LSHIFT] or pygame.key.get_pressed()[pygame.K_RSHIFT]:
                     if e.key in settings.shiftMods:
                         text += settings.shiftMods[e.key]
-                        self.display()
                 elif e.key in settings.alphanumericKeys.keys():
                     text += settings.alphanumericKeys[e.key]
-                    self.display()
-            print(self.text)
-
+                self.setText(text)
+                self.display()
 
         #when finished
-        self.addText(text)
-        return input(text)
+        self.setText(text)
+        return text
 
     def getRect(self):
         return Rect(self.x, self.y, self.w, self.h)
