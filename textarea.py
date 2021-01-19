@@ -45,13 +45,17 @@ class TextArea:
             textToChange = textwrap.fill(
                 textToChange, width=self.charLimit).strip().replace('\n', '\n  ')
         for lineToAdd in textToChange.split('\n'):
-            self.addLines(lineToAdd)
+            self.addLines(lineToAdd.replace('> > ', '> '))
+    
+    def setText(self, text):
+        self.lines = []
+        self.addText(text)
 
     def display(self):
-        pygame.draw.rect(self.dispSurface,
-                         settings.medGray, self.getRect(), 3)
-        #pygame.draw.rect(self.dispSurface, settings.red, self.getMarginRect(), 3)
+        #pygame.draw.rect(self.dispSurface, settings.medGray, self.getRect(), 3) # border rect
+        #pygame.draw.rect(self.dispSurface, settings.red, self.getMarginRect(), 3) # margin rect
         for i, line in enumerate(self.lines):
+            #print(i, line)
             txt = settings.gameFont.render(line.replace('> > ', '> '), True, settings.gameTextColor)
             pygame.draw.rect(self.dispSurface,
                              settings.medGray, self.getRect(), 3)
@@ -70,7 +74,7 @@ class TextArea:
                 if e.key == pygame.K_RETURN or e.key == pygame.K_KP_ENTER:
                     return text
                 elif e.key == pygame.K_BACKSPACE:
-                    if text.length > 0: text = text[:-1]
+                    if len(text) > 0: text = text[:-1]
                     self.display()
                 elif pygame.key.get_pressed()[pygame.K_LSHIFT] or pygame.key.get_pressed()[pygame.K_RSHIFT]:
                     if e.key in settings.shiftMods:
@@ -79,6 +83,7 @@ class TextArea:
                 elif e.key in settings.alphanumericKeys.keys():
                     text += settings.alphanumericKeys[e.key]
                     self.display()
+            print(self.text)
 
 
         #when finished

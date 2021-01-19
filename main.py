@@ -258,7 +258,6 @@ while not crashed:
             pygame.quit()
             exit()
     mainDisp.fill(settings.bgColor)
-    print(tb.text)
     tb.display()
     pygame.display.flip()
     currentRoom = roomList[currentRoomID]
