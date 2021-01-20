@@ -31,6 +31,7 @@ def initializeManual():
     linkRooms(1, 9, 'Southwest')
 
     addItemToRoom(itemList[0], 0)
+    addItemToRoom(itemList[1], 1)
 
     return roomList, itemList
 

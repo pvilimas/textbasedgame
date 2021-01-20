@@ -18,7 +18,7 @@ possibleRoomNames = ('Library', 'Kitchen', 'Terrace', 'Fountain',
 possibleItemNames = ('rope', 'computer', 'plunger',
                      'daddy kehne head polish', 'apple')
 # MAKE SURE THIS IS UPDATED
-pluralItemNames = ('rope', 'daddy kehne head polish')
+pluralItemNames = ('rope', 'daddy kehne head polish', 'computers', 'apples', 'plungers')
 inputModes = (('North', 'north', 'N', 'n'), ('South', 'south', 'S', 's'), ('East', 'east', 'E', 'e'), ('West', 'west', 'W', 'w'),
               ('Northeast', 'northeast', 'NE', 'ne'), ('Southeast', 'southeast', 'SE', 'se'), ('Northwest', 'northwest', 'NW', 'nw'), ('Southwest', 'southwest', 'SW', 'sw'))
 

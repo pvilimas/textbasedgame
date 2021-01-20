@@ -8,8 +8,8 @@ class Item:
         self.ID = ID
         self.keywords = {
             'use': kwUse,
-            'take': ('take', 'pick up'),
-            'drop': ('drop', 'put down')
+            'take': ('take', 'pick up', 'Take', 'Pick up'),
+            'drop': ('drop', 'put down', 'place', 'Drop', 'Put down', 'Place')
         }
         self.msgOnUse = f'You used the {self.name}. '
         self.msgOnTake = f'You took the {self.name}. '
@@ -18,7 +18,7 @@ class Item:
         self.canBePickedUp = True  # must be set to false manually in initializeManual
 
     def __format__(self, format):
-        if self.name in settings.pluralItemNames:
+        if self.name in settings.pluralItemNames: # cover for plural instances of items 
             return f'some {self.name}'
         else:
             return f'an {self.name}' if self.name[0] in 'aeiou' else f'a {self.name}'
