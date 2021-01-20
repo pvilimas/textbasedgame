@@ -1,5 +1,6 @@
 import pygame
-roomNotFoundMsg = 'Room not found. '  # currently unused
+# currently unused
+roomNotFoundMsg = 'Room not found. ' 
 # displayed when a player tries to move north when there's no room that way
 invalidDirMsg = 'You can\'t go that way! '
 # displayed when a player tries to move sdmcnsbnd or use the 23846sajbd
@@ -7,9 +8,14 @@ invalidCmdMsg = 'Command not recognized! '
 # displayed when a player tries to interact with an item that doesn't exist
 invalidItemMsg = 'That item doesn\'t exist! '
 # displayed when a player says "take" or "use" with no object in the command
-ambiguousCmdMsg = 'What do you want to CMD_NAME? '
+ambiguousCmdMsg = 'Specify an object.'  # 'take?'
 # displayed when an item is not found in the inventory
-itemNotInInventoryMsg = 'No ITEM_NAME was found in your inventory! '
+itemNotInInventoryMsg = 'That couldn\'t be found in your inventory!'
+# displayed when an item is not found in the room
+itemNotInRoomMsg = 'You couldn\'t find that item anywhere here. '
+# displayed when an item is mentioned without any action
+unknownItemActionMsg = 'What do you want to do with the ITEM_NAME?'
+
 
 # USE TUPLES NOT LISTS HERE (saves memory)
 
@@ -45,15 +51,11 @@ pygame.display.set_mode((dispWidth, dispHeight))
 gameColor = (10, 128, 43)
 userColor = (10, 128, 43) #for now
 #gameFont = pygame.font.Font('/data/fonts/GearusCondensedBook.otf', 20)
-
-
-
 class CannotTakeItemException(Exception):
     pass
 
 
 class ItemNotInInventoryException(Exception):
     pass
-
 class invalidItemException(Exception):
     pass

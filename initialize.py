@@ -31,8 +31,7 @@ def initializeManual():
     linkRooms(1, 9, 'Southwest')
 
     addItemToRoom(itemList[0], 0)
-    addItemToRoom(itemList[1], 1)
-
+    
     return roomList, itemList
 
 
@@ -82,7 +81,7 @@ def getRoom(input, rl):  # rl = roomlist
 def addItemToRoom(i, r):
     if type(r) is int:
         r = roomList[r]
-    r.itemList.append(i)
+    r.itemsInRoom.append(i)
 
 
 def setMessages(r, e, s, l): #do the same for the items later

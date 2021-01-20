@@ -37,10 +37,10 @@ def showDestinations(room):
 
 def showItems(room):
     print('Items:')
-    if len(room.itemList) == 0:
+    if len(room.itemsInRoom) == 0:
         print('No items')
         return
-    for i in room.itemList:
+    for i in room.itemsInRoom:
         print(f'{i}')
 
 
@@ -54,7 +54,7 @@ def lookAround():  # same here
     global currentRoom, lookedAroundThisTurn
     lookedAroundThisTurn = True
     itemString = 'No items can be found here. ' if len(
-        currentRoom.itemList) == 0 else f"The items that can be found here are: {' and '.join(repr(i) for i in currentRoom.itemList)}. "  # just know that this works :)
+        currentRoom.itemsInRoom) == 0 else f"The items that can be found here are: {' and '.join(repr(i) for i in currentRoom.itemsInRoom)}. "  # just know that this works :)
     display(f'{currentRoom.msgOnLook}{itemString}')
 
 
@@ -73,13 +73,13 @@ def display(text):
     print(f'\n> {text}\n')
 
 
-def takeItem(itemID):
-    global currentRoom
+def takeItem(itemID):                 #This takes an item from the room and puts it in your inventory
+    global currentRoom                #This only runs when you have a valid item
     item = itemList[itemID]
-    if not item.canBePickedUp or item not in currentRoom.itemList:
-        raise settings.CannotTakeItemException
+    if not item.canBePickedUp:
+        raise settings.CannotTakeItemException('Failed')
     else:
-        currentRoom.itemList.remove(item)
+        currentRoom.itemsInRoom.remove(item)
         inventory.append(item)
         display(item.msgOnTake)
 
@@ -91,7 +91,7 @@ def dropItem(itemID):
         # maybe implicitly raise a value error here instead?
         raise settings.ItemNotInInventoryException
     else:
-        currentRoom.itemList.append(item)
+        currentRoom.itemsInRoom.append(item)
         inventory.remove(item)
         display(item.msgOnDrop)
 
@@ -123,6 +123,12 @@ def processCommand(c):
                             itemMsgGivenThisTurn = True
                         itemErrorMsgGiven = True
                     # 'take rope', 'turn on light', etc
+                    elif commandOnly == item.name: # if the user only gives an item name
+                        if item in currentRoom.itemsInRoom or item in inventory:
+                            if not itemMsgGivenThisTurn:
+                                display(f'{settings.unknownItemActionMsg.replace("ITEM_NAME", item.name)}')
+                                itemMsgGivenThisTurn = True
+                            itemErrorMsgGiven = True
                     elif commandOnly == f'{kw} {item.name}':
                         try:
                             itemMsgGivenThisTurn = True
@@ -134,11 +140,19 @@ def processCommand(c):
                                     display(settings.itemNotInInventoryMsg.replace('ITEM_NAME', item.name))
                                     return False
                             elif kw in item.keywords['take']:
-                                takeItem(item.ID)
-                                return True
+                                if item in currentRoom.itemsInRoom:
+                                    takeItem(item.ID)
+                                    return True
+                                else:
+                                    display(settings.itemNotInRoomMsg)
+                                    return False
                             elif kw in item.keywords['drop']:
-                                dropItem(item.ID)
-                                return True
+                                if item in inventory:
+                                    dropItem(item.ID)
+                                    return True
+                                else:
+                                    display(settings.itemNotInInventoryMsg)
+                                    return False
                             else:
                                 itemMsgGivenThisTurn = False
                                 return False

@@ -16,10 +16,10 @@ class Room:
     def __init__(self, name, ID):
         self.name = name
         self.ID = ID
-        self.itemList = []
+        self.itemsInRoom = []
         self.msgOnEnter = f'You have entered the {self.name}. '
         self.msgOnStay = f'You are in the {self.name}. '
-        self.msgOnLook = self.msgOnStay + 'This is the look around message btw. '
+        self.msgOnLook = f'You look around and see that you are in the {self.name}. '
         self.destinations = dict()
         for d in settings.validDirections:
             self.destinations.update({d: None})
