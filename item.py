@@ -9,12 +9,13 @@ class Item:
         self.keywords = {
             'use': kwUse,
             'take': ('take', 'pick up', 'Take', 'Pick up'),
-            'drop': ('drop', 'put down', 'place', 'Drop', 'Put down', 'Place')
+            'drop': ('drop', 'put down', 'place', 'Drop', 'Put down', 'Place'),
+            'look': ('Look at', 'look at', 'examine', 'Examine', 'inspect', 'Inspect')
         }
         self.msgOnUse = f'You used the {self.name}. '
         self.msgOnTake = f'You took the {self.name}. '
         self.msgOnDrop = f'You dropped the {self.name}. '
-        self.msgOnLook = f'This is just a regular {self.name}. ' #not implemented yet
+        self.msgOnLook = f'This is just a regular {self.name}. ' 
         self.canBePickedUp = True  # must be set to false manually in initializeManual
 
     def __format__(self, format):

@@ -85,7 +85,7 @@ def takeItem(itemID):                 #This takes an item from the room and puts
 
 
 def dropItem(itemID):
-    print('dropping!')
+    print('dropping!')               #This drops an item from your inventory, only works when you have said item 
     item = itemList[itemID]
     if item not in inventory:
         # maybe implicitly raise a value error here instead?
@@ -95,6 +95,17 @@ def dropItem(itemID):
         inventory.remove(item)
         display(item.msgOnDrop)
 
+def lookAtItem(itemID):
+    global currentRoom
+    item = itemList[itemID]
+    if item not in inventory:
+        if item not in currentRoom.itemsInRoom:
+            raise settings.ItemNotInInventoryException
+        else:
+            display(item.msgOnLook)
+    else:
+        display(item.msgOnLook)
+
 # useItem does not exist, maybe it should but for now it's in the item class: item.use()
 # and it returns the string to display
 
@@ -103,7 +114,7 @@ def processCommand(c):
     global lookedAroundThisTurn, itemMsgGivenThisTurn, invMsgGivenThisTurn
     lookedAroundThisTurn, itemMsgGivenThisTurn, invMsgGivenThisTurn = False, False, False
 
-    # checks to see if user tried to use, drop, or take an item
+    # checks to see if user tried to use, drop, look, or take an item
     def itemCommandCheck(c):
         global itemList, inventory, itemMsgGivenThisTurn
         itemMasterList = itemList
@@ -132,26 +143,33 @@ def processCommand(c):
                     elif commandOnly == f'{kw} {item.name}':
                         try:
                             itemMsgGivenThisTurn = True
-                            if kw in item.keywords['use']:
+                            if kw in item.keywords['use']: # check when using item
                                 if item in inventory:
                                     display(item.use())
                                     return True
                                 else:
                                     display(settings.itemNotInInventoryMsg.replace('ITEM_NAME', item.name))
                                     return False
-                            elif kw in item.keywords['take']:
+                            elif kw in item.keywords['take']: # check when taking item 
                                 if item in currentRoom.itemsInRoom:
                                     takeItem(item.ID)
                                     return True
                                 else:
                                     display(settings.itemNotInRoomMsg)
                                     return False
-                            elif kw in item.keywords['drop']:
+                            elif kw in item.keywords['drop']: # check when dropping item
                                 if item in inventory:
                                     dropItem(item.ID)
                                     return True
                                 else:
                                     display(settings.itemNotInInventoryMsg)
+                                    return False
+                            elif kw in item.keywords['look']: # check when looking at item
+                                if item in inventory or item in currentRoom.itemsInRoom:
+                                    lookAtItem(item.ID)
+                                    return True
+                                else:
+                                    display(settings.invalidItemMsg)
                                     return False
                             else:
                                 itemMsgGivenThisTurn = False
