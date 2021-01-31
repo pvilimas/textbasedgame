@@ -43,8 +43,8 @@ checkInvCmds = ('inventory', 'Inventory', 'inv', 'Inv')
 class CannotTakeItemException(Exception):
     pass
 
-
 class ItemNotInInventoryException(Exception):
     pass
+
 class invalidItemException(Exception):
     pass

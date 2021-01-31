@@ -1,10 +1,11 @@
+from ursina import *
 from item import Item
 from room import Room
 from initialize import initializeManual
 import settings
 roomList, itemList = initializeManual()
 
-
+#app = Ursina()
 GUIEnabled = False #maybe enable this in the actual game so people can decide to play from command line or GUI window lol
 
 inventory = []
@@ -261,7 +262,7 @@ def processCommand(c):
 # set up fonts here
 
 # ------- MAIN GAME LOOP ------- #
-
+#app.run()
 crashed = False
 while not crashed:
     currentRoom = roomList[currentRoomID]
