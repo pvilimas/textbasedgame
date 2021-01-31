@@ -4,7 +4,6 @@ from initialize import initializeManual
 import settings
 roomList, itemList = initializeManual()
 
-import pygame
 
 GUIEnabled = False #maybe enable this in the actual game so people can decide to play from command line or GUI window lol
 
@@ -66,7 +65,7 @@ lookedAroundThisTurn = False
 itemMsgGivenThisTurn = False
 invMsgGivenThisTurn = False
 
-# later on, change this to GUI/pygame based
+# later on, change this to GUI based
 
 
 def display(text):
@@ -258,7 +257,7 @@ def processCommand(c):
                 except:
                     pass
 
-pygame.init()
+
 # set up fonts here
 
 # ------- MAIN GAME LOOP ------- #

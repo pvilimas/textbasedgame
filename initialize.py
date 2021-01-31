@@ -17,7 +17,7 @@ def initializeManual():
         print(f'{r:short}')
     itemList = [Item(name, i, ('use',)) for i, name in enumerate(
         settings.possibleItemNames)]  # use is the default keyword
-
+    
     linkRooms(0, 1, 'South')
     linkRooms(0, 2, 'East')
     linkRooms(0, 8, 'West')
