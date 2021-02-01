@@ -24,3 +24,6 @@ class TextBox():
     
     def removeChar(self): #used for backspacing
         self.lines[-1] = self.lines[-1][0:-2]
+
+    def getTextField(self):
+        pass
