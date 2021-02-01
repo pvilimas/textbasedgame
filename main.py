@@ -1,4 +1,5 @@
 from ursina import *
+from pprint import pprint
 from item import Item
 from room import Room
 from initialize import initializeManual
@@ -7,6 +8,7 @@ import settings
 roomList, itemList = initializeManual()
 
 app = Ursina()
+tb = TextBox(0, 0)
 window.title = 'Text Based Game'
 window.borderless = True
 window.fullscreen = False
@@ -284,10 +286,19 @@ def processCommand(c):
 # ------- MAIN GAME LOOP ------- #
 
 
-#game functions, automatically called
+# game functions, automatically called
 
 def input(key):
-    print(key)
+    if not key.endswith('up'):
+        if not (held_keys['meta'] or held_keys['rmeta'] or held_keys['lmeta']):
+            try:
+                if not (held_keys['shift'] or held_keys['rshift'] or held_keys['lshift']):
+                    print(settings.regKeys[key.replace('up', '')])
+                else:
+                    print(settings.shiftKeys[key.replace('up', '')])
+            except KeyError:
+                pass
+
 
 def update():
     # print(app.mouse.position)

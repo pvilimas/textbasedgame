@@ -23,7 +23,23 @@ class TextBox():
         self.addLines(wrap(text, width=self.width))
     
     def removeChar(self): #used for backspacing
-        self.lines[-1] = self.lines[-1][0:-2]
+        if len(self.lines[-1]) > 0:
+             self.lines[-1] = self.lines[-1][0:-2]
+
+    def addChar(self, char):
+        if len(self.lines[-1]) <= self.width:
+            self.lines[-1] += char
 
     def getTextField(self):
         pass
+
+    def getFormattedText(self):
+        return '\n'.join([f'> {line}' for line in self.lines])
+    
+    def __repr__(self, format):
+        return getFormattedText(self)
+
+    def display(self, text=''):
+        if text == '':
+            text = self.text
+            print(repr(self))

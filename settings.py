@@ -1,5 +1,5 @@
 # currently unused
-roomNotFoundMsg = 'Room not found. ' 
+roomNotFoundMsg = 'Room not found. '
 # displayed when a player tries to move north when there's no room that way
 invalidDirMsg = 'You can\'t go that way! '
 # displayed when a player tries to move sdmcnsbnd or use the 23846sajbd
@@ -23,7 +23,8 @@ possibleRoomNames = ('Library', 'Kitchen', 'Terrace', 'Fountain',
 possibleItemNames = ('rope', 'computer', 'plunger',
                      'daddy kehne head polish', 'apple')
 # MAKE SURE THIS IS UPDATED
-pluralItemNames = ('rope', 'daddy kehne head polish', 'computers', 'apples', 'plungers')
+pluralItemNames = ('rope', 'daddy kehne head polish',
+                   'computers', 'apples', 'plungers')
 inputModes = (('North', 'north', 'N', 'n'), ('South', 'south', 'S', 's'), ('East', 'east', 'E', 'e'), ('West', 'west', 'W', 'w'),
               ('Northeast', 'northeast', 'NE', 'ne'), ('Southeast', 'southeast', 'SE', 'se'), ('Northwest', 'northwest', 'NW', 'nw'), ('Southwest', 'southwest', 'SW', 'sw'))
 
@@ -40,11 +41,114 @@ lookAroundCmds = ('look', 'look around', 'Look', 'Look around',
 # commands to look through the inventory
 checkInvCmds = ('inventory', 'Inventory', 'inv', 'Inv')
 
+
 class CannotTakeItemException(Exception):
     pass
+
 
 class ItemNotInInventoryException(Exception):
     pass
 
+
 class invalidItemException(Exception):
     pass
+
+
+# evil textbox stuff
+
+
+regKeys = {"'": "'",
+           ',': ',',
+           '-': '-',
+           '.': '.',
+           '/': '/',
+           '0': '0',
+           '1': '1',
+           '2': '2',
+           '3': '3',
+           '4': '4',
+           '5': '5',
+           '6': '6',
+           '7': '7',
+           '8': '8',
+           '9': '9',
+           ';': ';',
+           '=': '=',
+           '[': '[',
+           '\\': '\\',
+           ']': ']',
+           '`': '`',
+           'a': 'a',
+           'b': 'b',
+           'c': 'c',
+           'd': 'd',
+           'e': 'e',
+           'f': 'f',
+           'g': 'g',
+           'h': 'h',
+           'i': 'i',
+           'j': 'j',
+           'k': 'k',
+           'l': 'l',
+           'm': 'm',
+           'n': 'n',
+           'o': 'o',
+           'p': 'p',
+           'q': 'q',
+           'r': 'r',
+           's': 's',
+           't': 't',
+           'u': 'u',
+           'v': 'v',
+           'w': 'w',
+           'x': 'x',
+           'y': 'y',
+           'z': 'z'}
+
+shiftKeys = {"'": "\"",
+             ',': '<',
+             '-': '_',
+             '.': '>',
+             '/': '?',
+             '0': ')',
+             '1': '!',
+             '2': '@',
+             '3': '#',
+             '4': '$',
+             '5': '%',
+             '6': '^',
+             '7': '&',
+             '8': '*',
+             '9': '(',
+             ';': ':',
+             '=': '+',
+             '[': '{',
+             '\\': '\\',
+             ']': '}',
+             '`': '~',
+             'a': 'A',
+             'b': 'B',
+             'c': 'C',
+             'd': 'D',
+             'e': 'E',
+             'f': 'F',
+             'g': 'G',
+             'h': 'H',
+             'i': 'I',
+             'j': 'J',
+             'k': 'K',
+             'l': 'L',
+             'm': 'M',
+             'n': 'N',
+             'o': 'O',
+             'p': 'P',
+             'q': 'Q',
+             'r': 'R',
+             's': 'S',
+             't': 'T',
+             'u': 'U',
+             'v': 'V',
+             'w': 'W',
+             'x': 'X',
+             'y': 'Y',
+             'z': 'Z'}
