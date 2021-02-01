@@ -2,11 +2,19 @@ from ursina import *
 from item import Item
 from room import Room
 from initialize import initializeManual
+from custominputfield import CustomInputField
 import settings
 roomList, itemList = initializeManual()
 
 app = Ursina()
-GUIEnabled = False #maybe enable this in the actual game so people can decide to play from command line or GUI window lol
+window.title = 'Text Based Game'
+window.borderless = True
+window.fullscreen = False
+window.exit_button_visible = False
+window.fps_counter.enabled = True
+Text.size = 0.05
+Text.default_resolution = 1080 * Text.size
+GUIEnabled = False  # maybe enable this in the actual game so people can decide to play from command line or GUI window
 
 inventory = []
 
@@ -16,9 +24,11 @@ progression = {  # do this much later
     'next': []  # set this to remaining[0] every turn
 }
 
+
 def addToInventory(item):
     global inventory
     inventory.append(item)
+
 
 def removeFromInventory(item):
     global inventory
@@ -73,8 +83,8 @@ def display(text):
     print(f'\n> {text}\n')
 
 
-def takeItem(itemID):                 #This takes an item from the room and puts it in your inventory
-    global currentRoom                #This only runs when you have a valid item
+def takeItem(itemID):  # This takes an item from the room and puts it in your inventory
+    global currentRoom  # This only runs when you have a valid item
     item = itemList[itemID]
     if not item.canBePickedUp:
         raise settings.CannotTakeItemException('Failed')
@@ -85,7 +95,8 @@ def takeItem(itemID):                 #This takes an item from the room and puts
 
 
 def dropItem(itemID):
-    print('dropping!')               #This drops an item from your inventory, only works when you have said item 
+    # This drops an item from your inventory, only works when you have said item
+    print('dropping!')
     item = itemList[itemID]
     if item not in inventory:
         # maybe implicitly raise a value error here instead?
@@ -94,6 +105,7 @@ def dropItem(itemID):
         currentRoom.itemsInRoom.append(item)
         inventory.remove(item)
         display(item.msgOnDrop)
+
 
 def lookAtItem(itemID):
     global currentRoom
@@ -130,41 +142,48 @@ def processCommand(c):
                     #print(commandOnly == f"{kw} {item.name}")
                     if commandOnly == kw:  # if the user only said 'take' or 'use'
                         if not itemMsgGivenThisTurn:
-                            display(f'{settings.ambiguousCmdMsg.replace("CMD_NAME", kw)}')
+                            display(
+                                f'{settings.ambiguousCmdMsg.replace("CMD_NAME", kw)}')
                             itemMsgGivenThisTurn = True
                         itemErrorMsgGiven = True
                     # 'take rope', 'turn on light', etc
-                    elif commandOnly == item.name: # if the user only gives an item name
+                    elif commandOnly == item.name:  # if the user only gives an item name
                         if item in currentRoom.itemsInRoom or item in inventory:
                             if not itemMsgGivenThisTurn:
-                                display(f'{settings.unknownItemActionMsg.replace("ITEM_NAME", item.name)}')
+                                display(
+                                    f'{settings.unknownItemActionMsg.replace("ITEM_NAME", item.name)}')
                                 itemMsgGivenThisTurn = True
                             itemErrorMsgGiven = True
                     elif commandOnly == f'{kw} {item.name}':
                         try:
                             itemMsgGivenThisTurn = True
-                            if kw in item.keywords['use']: # check when using item
+                            # check when using item
+                            if kw in item.keywords['use']:
                                 if item in inventory:
                                     display(item.use())
                                     return True
                                 else:
-                                    display(settings.itemNotInInventoryMsg.replace('ITEM_NAME', item.name))
+                                    display(settings.itemNotInInventoryMsg.replace(
+                                        'ITEM_NAME', item.name))
                                     return False
-                            elif kw in item.keywords['take']: # check when taking item 
+                            # check when taking item
+                            elif kw in item.keywords['take']:
                                 if item in currentRoom.itemsInRoom:
                                     takeItem(item.ID)
                                     return True
                                 else:
                                     display(settings.itemNotInRoomMsg)
                                     return False
-                            elif kw in item.keywords['drop']: # check when dropping item
+                            # check when dropping item
+                            elif kw in item.keywords['drop']:
                                 if item in inventory:
                                     dropItem(item.ID)
                                     return True
                                 else:
                                     display(settings.itemNotInInventoryMsg)
                                     return False
-                            elif kw in item.keywords['look']: # check when looking at item
+                            # check when looking at item
+                            elif kw in item.keywords['look']:
                                 if item in inventory or item in currentRoom.itemsInRoom:
                                     lookAtItem(item.ID)
                                     return True
@@ -175,7 +194,8 @@ def processCommand(c):
                                 itemMsgGivenThisTurn = False
                                 return False
                         except settings.ItemNotInInventoryException:
-                            display(settings.itemNotInInventoryMsg.replace('ITEM_NAME', item.name))
+                            display(settings.itemNotInInventoryMsg.replace(
+                                'ITEM_NAME', item.name))
                         except settings.invalidItemException:
                             display(settings.invalidItemMsg)
                             itemMsgGivenThisTurn = True
@@ -262,9 +282,21 @@ def processCommand(c):
 # set up fonts here
 
 # ------- MAIN GAME LOOP ------- #
+
+#text = Text(text='hi', origin=(0, 0))
+field = InputField(max_lines=13, color=color.gray, highlight_color=color.gray)
+b = Button(text='', color=color.clear, highlight_color=color.clear)
+b.input = 'enter down'
+#game functions, automatically called
+
+def update():
+    # print(app.mouse.position)
+    pass
+
+
 app.run()
 crashed = False
-while not crashed:
+"""while not crashed:
     currentRoom = roomList[currentRoomID]
     # showItems(currentRoom)
     # showDestinations(currentRoom)
@@ -275,7 +307,7 @@ while not crashed:
         nextInput = input(f'> {currentRoom.msgOnEnter}\n\n> ')
     else:
         nextInput = input(f'> {currentRoom.msgOnStay}\n\n> ')
-    processCommand(nextInput.strip())
+    processCommand(nextInput.strip())"""
 
 
 # ------- MAIN GAME LOOP ------- #
