@@ -2,7 +2,7 @@ from ursina import *
 from item import Item
 from room import Room
 from initialize import initializeManual
-from custominputfield import CustomInputField
+from textbox import TextBox
 import settings
 roomList, itemList = initializeManual()
 
@@ -283,11 +283,11 @@ def processCommand(c):
 
 # ------- MAIN GAME LOOP ------- #
 
-#text = Text(text='hi', origin=(0, 0))
-field = InputField(max_lines=13, color=color.gray, highlight_color=color.gray)
-b = Button(text='', color=color.clear, highlight_color=color.clear)
-b.input = 'enter down'
+
 #game functions, automatically called
+
+def input(key):
+    print(key)
 
 def update():
     # print(app.mouse.position)
