@@ -289,15 +289,20 @@ def processCommand(c):
 # game functions, automatically called
 
 def input(key):
+    print(tb.display())
     if not key.endswith('up'):
         if not (held_keys['meta'] or held_keys['rmeta'] or held_keys['lmeta']):
             try:
                 if not (held_keys['shift'] or held_keys['rshift'] or held_keys['lshift']):
                     print(settings.regKeys[key.replace('up', '')])
+                    tb.addChar(settings.regKeys[key.replace('up', '')])
                 else:
                     print(settings.shiftKeys[key.replace('up', '')])
+                    tb.addChar(settings.shiftKeys[key.replace('up', '')])
             except KeyError:
                 pass
+        elif key in ('backspace', 'delete'):
+            tb.removeChar()
 
 
 def update():

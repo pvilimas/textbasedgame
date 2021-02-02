@@ -10,7 +10,7 @@ class TextBox():
         self.text = startingText
         self.height = height
         self.width = width
-        self.lines = []  # List[str]
+        self.lines = ['']  # List[str]
 
     def addLine(self, line):
         self.lines.append(line.rstrip())
@@ -24,7 +24,7 @@ class TextBox():
     
     def removeChar(self): #used for backspacing
         if len(self.lines[-1]) > 0:
-             self.lines[-1] = self.lines[-1][0:-2]
+             self.lines[-1] = self.lines[-1][:-1]
 
     def addChar(self, char):
         if len(self.lines[-1]) <= self.width:
@@ -36,8 +36,8 @@ class TextBox():
     def getFormattedText(self):
         return '\n'.join([f'> {line}' for line in self.lines])
     
-    def __repr__(self, format):
-        return getFormattedText(self)
+    def __repr__(self, format=''):
+        return self.getFormattedText().strip() + " formatted tb"
 
     def display(self, text=''):
         if text == '':
