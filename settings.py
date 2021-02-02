@@ -54,7 +54,7 @@ class invalidItemException(Exception):
     pass
 
 
-# evil textbox stuff
+# evil textbox data
 
 
 regKeys = {"'": "'",

@@ -9,8 +9,9 @@ roomList, itemList = initializeManual()
 
 app = Ursina()
 tb = TextBox(0, 0)
+tf = TextField(text='')
 window.title = 'Text Based Game'
-window.borderless = True
+window.borderless = False
 window.fullscreen = False
 window.exit_button_visible = False
 window.fps_counter.enabled = True
@@ -287,27 +288,32 @@ def processCommand(c):
 
 
 # game functions, automatically called
-
+capsLockOn = False
 def input(key):
-    print(tb.display())
+    global capsLockOn
     if not key.endswith('up'):
-        if not (held_keys['meta'] or held_keys['rmeta'] or held_keys['lmeta']):
+        print(f'user pressed {key}')
+        print(tb.display())
+        if key == 'caps_lock':
+            capsLockOn = not capsLockOn
+        elif key in ('backspace', 'delete'):
+            tb.removeChar()
+        elif not (held_keys['meta'] or held_keys['rmeta'] or held_keys['lmeta']):
             try:
+                """_ = (tb.addChar(settings.shiftKeys[key.replace('up', '')]) if not (held_keys['shift'] or held_keys['rshift'] or held_keys['lshift']) else tb.addChar(settings.regKeys[key.replace('up', '')])) if capsLockOn else (
+                    tb.addChar(settings.regKeys[key.replace('up', '')]) if not (held_keys['shift'] or held_keys['rshift'] or held_keys['lshift']) else tb.addChar(settings.shiftKeys[key.replace('up', '')]))"""
                 if not (held_keys['shift'] or held_keys['rshift'] or held_keys['lshift']):
-                    print(settings.regKeys[key.replace('up', '')])
                     tb.addChar(settings.regKeys[key.replace('up', '')])
                 else:
-                    print(settings.shiftKeys[key.replace('up', '')])
                     tb.addChar(settings.shiftKeys[key.replace('up', '')])
             except KeyError:
                 pass
-        elif key in ('backspace', 'delete'):
-            tb.removeChar()
 
 
 def update():
     # print(app.mouse.position)
-    pass
+    global tb, tf
+    tf = tb.getTextField()
 
 
 app.run()

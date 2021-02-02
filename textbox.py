@@ -31,7 +31,7 @@ class TextBox():
             self.lines[-1] += char
 
     def getTextField(self):
-        pass
+        return TextField(text=self.getFormattedText().strip())
 
     def getFormattedText(self):
         return '\n'.join([f'> {line}' for line in self.lines])
