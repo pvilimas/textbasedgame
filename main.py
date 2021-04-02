@@ -40,7 +40,7 @@ def showItems(room):
         print('No items')
         return
     for i in room.itemsInRoom:
-        print(f'{i}')
+        print(i)
 
 
 def showInventory():  # this one's gotta actually be detailed and look good bc it will be in the game
